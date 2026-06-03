@@ -9,12 +9,12 @@ const routers = [
     redirect: {name: 'about'}
   },
   {
-    path: '/home',
-    name: 'home',
+    path: '/school',
+    name: 'school',
     component: LandingPage,
     children: [
       {
-        path: 'about-us',
+        path: 'home',
         name: 'about',
         component: Home,
         meta:{
@@ -25,7 +25,7 @@ const routers = [
   }
 ]
 const route = createRouter({
-  history: createWebHistory('/'),
+  history: createWebHistory('/dist'),
   routes: routers
 })
 route.beforeEach((to, from)=>{
