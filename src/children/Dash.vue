@@ -3,7 +3,7 @@
 
 <template>
   <div class="container-fluid m-1" style="height: 100vh; font-family: Tahoma, Arial, SansSerif">
-    <div class="bg-info p-2 text-center">
+    <div class="bg-info p-2 text-center rounded-1">
       <h3>Dashboard</h3>
     </div>
 

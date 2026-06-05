@@ -1,23 +1,38 @@
 <script setup>
-import {timeOut} from '@/functions/timer'
+import { timeOut } from '@/functions/timer'
 import { ref } from 'vue'
 const isOpened = ref(false)
-const user_name = ref('copy user name')
+const user_name = ref('copy username')
+const password = ref(null)
+const pass_btn = ref(null)
 
 // Change text colors
 const isCopied = ref(false)
+const isPassCopied = ref(false);
+
 function changeCredentialState() {
   isOpened.value = !isOpened.value
 }
-const getUserName = async ()=>{
-  const userName = document.getElementById('userName').textContent;
-  if (userName){
-    await navigator.clipboard.writeText(userName);
-    isCopied.value = true;
-    user_name.value = "Name copied success✔";
+const getUserName = async () => {
+  const userName = document.getElementById('userName').textContent
+  if (userName) {
+    await navigator.clipboard.writeText(userName)
+    isCopied.value = true
+    user_name.value = 'Copied✔'
+    await timeOut(4000)
+    isCopied.value = false
+    user_name.value = 'copy username'
+  }
+}
+
+const getPassword = async () => {
+  if (password) {
+    await navigator.clipboard.writeText(password.value.textContent)
+    isPassCopied.value = true
+    pass_btn.value.textContent = 'Copied ✔'
     await timeOut(4000);
-    isCopied.value = false;
-    user_name.value = 'copy user name';
+    isPassCopied.value = false;
+    pass_btn.value.textContent = "copy password";
   }
 }
 </script>
@@ -93,18 +108,53 @@ const getUserName = async ()=>{
             <div class="card-body">
               <div class="p-3">
                 <div>
-                  <small class="text-dark">Open and copy app credential's (<i class="text-danger">This is only for app testing</i>)</small>
-                  <button class="btn btn-success w-100" @click="changeCredentialState" style="letter-spacing: 2px;">
-                    {{ isOpened ? 'Close' : 'Open' }}
-                  </button>
+                  <small class="text-dark"
+                    >Open/view and copy app credential's <br />
+                    (<i class="text-danger">This is only for app testing</i>)</small
+                  >
+                  <br />
+
+                  <div class="text-end my-1">
+                    <button
+                      class="button"
+                      @click="changeCredentialState"
+                      style="letter-spacing: 2px"
+                    >
+                      {{ isOpened ? 'Hide' : 'View' }}
+                      <i v-if="isOpened" class="bi bi-eye-slash-fill fs-5 text-light"></i>
+                      <i v-else class="bi bi-eye fs-5 text-light"></i>
+                    </button>
+                  </div>
                 </div>
                 <!--  credential container     -->
-                <div v-show="isOpened" class="cred-container p-2 my-2 w-100">
+                <div v-show="isOpened" class="cred-container p-2 my-2 w-100 shadow-lg rounded-2">
                   <div class="my-1">
-                    Username: <code id="userName">admin</code> <button class="my_copy_btn" :class="isCopied ? 'changeTxtColor' : 'black' " @click="getUserName">{{user_name}}</button>
+                    Username: <code id="userName">admin</code><br>
+                    <button
+                      class="my_copy_btn ms-2"
+                      :class="isCopied ? 'changeTxtColor' : 'Black'"
+                      @click="getUserName"
+                    >
+                      {{ user_name }}
+                    </button>
                   </div>
                   <div class="my-1">
-                    Password: <code id="password">00ab00</code> <button class="my_copy_btn"> copy password</button>
+                    Password: <code ref="password">MaX01_dev/ApQb07</code><br>
+                    <button
+                      class="my_copy_btn ms-2"
+                      :class="isPassCopied ? 'changeTxtColor' : 'Black'"
+                      @click="getPassword"
+                      ref="pass_btn"
+                    >
+                      copy password
+                    </button>
+                    <div class="card-footer mt-2">
+                      <p class="footer-content">
+                        These all allowed by this app developer only for the purposes of web test
+                        <br />
+                        &copy; all copy-right
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <!-- End credential container     -->
@@ -169,7 +219,7 @@ const getUserName = async ()=>{
   flex-direction: column;
   background: rgba(0, 0, 0, 0.2);
 }
-.my_copy_btn{
+.my_copy_btn {
   border-top: none;
   border-left: none;
   border-right: none;
@@ -177,16 +227,25 @@ const getUserName = async ()=>{
   border-radius: 9px;
   transition: all 1s ease-in-out 0.3ms;
 }
-.my_copy_btn:hover{
-  transform: scale(1.02);
-  box-shadow: 4px 6px 5px 5px rgba(0,0,0,0.3);
+.my_copy_btn:hover {
+  transform: scale(1.01);
+  box-shadow: 4px 6px 5px 5px rgba(0, 0, 0, 0.3);
 }
-code{
+code {
   font-size: 18px;
 }
-.changeTxtColor{
+.button {
+  border: none;
+  border-radius: 10px;
+  padding: 6px;
+  background: rgb(98, 134, 225);
+  color: #fff;
+}
+.changeTxtColor {
   color: #038303;
-  font-weight: bold;
-  font-style: italic;
+  /*font-weight: bold;*/
+}
+.footer-content {
+  font-size: 11px;
 }
 </style>

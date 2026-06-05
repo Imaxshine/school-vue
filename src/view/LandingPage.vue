@@ -25,8 +25,8 @@ import icon from '/icon/school.png'
         <div class="navbar-nav ms-auto">
           <RouterLink class="nav-link fs-5" :to="{ name: 'home' }">Home</RouterLink>
           <RouterLink class="nav-link fs-5" :to="{name: 'dash'}">Dashboard</RouterLink>
-          <RouterLink class="nav-link fs-5" to="">Students</RouterLink>
-          <RouterLink class="nav-link fs-5" to="">About us</RouterLink>
+<!--          <RouterLink class="nav-link fs-5" to="">Students</RouterLink>-->
+          <RouterLink class="nav-link fs-5" :to="{name: 'about'}">About us</RouterLink>
           <RouterLink class="nav-link fs-5" to="">
             <i class="bi bi-box-arrow-in-right text-success"></i> Login
           </RouterLink>
