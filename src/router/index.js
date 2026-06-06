@@ -1,9 +1,11 @@
 import {createRouter, createWebHistory} from 'vue-router';
+import {useUhuruStore} from '@/stores/uhuru.js'
 
 import LandingPage from "@/view/LandingPage.vue";
 import Home from "@/children/Home.vue";
 import Dash from '@/children/Dash.vue'
 import About from '@/children/About.vue'
+import Sign_up from '@/children/Sign_up.vue'
 
 const routers = [
   {
@@ -42,6 +44,15 @@ const routers = [
           description: "Read more to know us mostly who we are!"
         },
       },
+      {
+        path: 'sign-up',
+        name: 'register',
+        component: Sign_up,
+        meta:{
+          title: "Registration",
+          description: `Register to our site and start from here`
+        }
+      }
     ],
   },
 ]

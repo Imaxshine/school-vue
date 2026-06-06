@@ -1,5 +1,11 @@
 <script setup>
 import { timeOut } from '@/functions/timer'
+import { useUhuruStore } from '@/stores/uhuru'
+const data = useUhuruStore()
+const currentSchool = data.updateSchoolName('Feza boys')
+const displayName = data.displayName;
+// updateSchoolName('')
+
 import { ref } from 'vue'
 const isOpened = ref(false)
 const user_name = ref('copy username')
@@ -8,7 +14,7 @@ const pass_btn = ref(null)
 
 // Change text colors
 const isCopied = ref(false)
-const isPassCopied = ref(false);
+const isPassCopied = ref(false)
 
 function changeCredentialState() {
   isOpened.value = !isOpened.value
@@ -30,9 +36,9 @@ const getPassword = async () => {
     await navigator.clipboard.writeText(password.value.textContent)
     isPassCopied.value = true
     pass_btn.value.textContent = 'Copied ✔'
-    await timeOut(4000);
-    isPassCopied.value = false;
-    pass_btn.value.textContent = "copy password";
+    await timeOut(4000)
+    isPassCopied.value = false
+    pass_btn.value.textContent = 'copy password'
   }
 }
 </script>
@@ -40,7 +46,7 @@ const getPassword = async () => {
 <template>
   <div class="container-fluid" style="font-family: Tahoma, Arial, SansSerif">
     <div class="bg-info p-2 top-title mt-1 rounded-1">
-      <h3 class="text-center">Uhuru Secondary school</h3>
+      <h3 class="text-center">{{ displayName }}</h3>
     </div>
 
     <div class="s2-container mb-4">
@@ -129,7 +135,7 @@ const getPassword = async () => {
                 <!--  credential container     -->
                 <div v-show="isOpened" class="cred-container p-2 my-2 w-100 shadow-lg rounded-2">
                   <div class="my-1">
-                    Username: <code id="userName">admin</code><br>
+                    Username: <code id="userName">admin</code><br />
                     <button
                       class="my_copy_btn ms-2"
                       :class="isCopied ? 'changeTxtColor' : 'Black'"
@@ -139,7 +145,7 @@ const getPassword = async () => {
                     </button>
                   </div>
                   <div class="my-1">
-                    Password: <code ref="password">MaX01_dev/ApQb07</code><br>
+                    Password: <code ref="password">MaX01_dev/ApQb07</code><br />
                     <button
                       class="my_copy_btn ms-2"
                       :class="isPassCopied ? 'changeTxtColor' : 'Black'"
@@ -150,7 +156,8 @@ const getPassword = async () => {
                     </button>
                     <div class="card-footer mt-2">
                       <p class="footer-content">
-                        These all allowed by this app developer only for the purposes of web test
+                        These all, allowed by this app developer only for the purposes of web test
+                        and then use them in <RouterLink class="" to="#">login-form</RouterLink>
                         <br />
                         &copy; all copy-right
                       </p>
@@ -205,7 +212,7 @@ const getPassword = async () => {
   font-size: 30px;
 }
 .card:hover {
-  background: rgba(0, 0, 0, 0.2);
+  /*background: rgba(0, 0, 0, 0.2);*/
   transition: all 0.2ms ease-in 2ms;
 }
 .female-shape {

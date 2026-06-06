@@ -6,7 +6,7 @@ import icon from '/icon/school.png'
   <nav class="navbar navbar-expand-lg bg-body-secondary">
     <div class="container-fluid">
       <div>
-        <RouterLink to="">
+        <RouterLink :to="{name: 'home'}">
           <img class="brand-image navbar-brand" :src="icon" alt="image" />
         </RouterLink>
       </div>
@@ -28,9 +28,10 @@ import icon from '/icon/school.png'
 <!--          <RouterLink class="nav-link fs-5" to="">Students</RouterLink>-->
           <RouterLink class="nav-link fs-5" :to="{name: 'about'}">About us</RouterLink>
           <RouterLink class="nav-link fs-5" to="">
-            <i class="bi bi-box-arrow-in-right text-success"></i> Login
+            <i class="bi bi-box-arrow-in-right text-success"></i>
+            Login
           </RouterLink>
-          <RouterLink class="nav-link fs-5" to="">
+          <RouterLink class="nav-link fs-5" :to="{name: 'register'}">
             <i class="bi bi-people-fill text-success"></i>
             Sign-up
           </RouterLink>
@@ -65,7 +66,7 @@ import icon from '/icon/school.png'
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url("/icon/background.png");
+  background-image: url("/student2.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
