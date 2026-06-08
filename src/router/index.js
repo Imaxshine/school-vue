@@ -67,7 +67,7 @@ const routers = [
   },
 ]
 const route = createRouter({
-  history: createWebHistory('./'),
+  history: createWebHistory('/'),
   routes: routers,
 })
 route.beforeEach((to, from) => {
