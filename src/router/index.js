@@ -67,7 +67,7 @@ const routers = [
   },
 ]
 const route = createRouter({
-  history: createWebHistory('/file'),
+  history: createWebHistory('./'),
   routes: routers,
 })
 route.beforeEach((to, from) => {
