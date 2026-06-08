@@ -49,7 +49,7 @@ function changeIcons() {
               </div>
 
               <div class="my-3 text-center">
-                <button class="btn btn-primary w-100 p-3">Sign up</button>
+                <button class="btn btn-primary w-100 p-3">Sign-up</button>
               </div>
             </form>
           </div>
