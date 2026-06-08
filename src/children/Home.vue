@@ -3,7 +3,7 @@ import { timeOut } from '@/functions/timer'
 import { useUhuruStore } from '@/stores/uhuru'
 const data = useUhuruStore()
 const currentSchool = data.updateSchoolName('Feza boys')
-const displayName = data.displayName;
+const displayName = data.displayName
 // updateSchoolName('')
 
 import { ref } from 'vue'
@@ -176,6 +176,14 @@ const getPassword = async () => {
 </template>
 
 <style scoped>
+.container-fluid {
+  font-family:
+    DM Sans,
+    Avenir,
+    Helvetica,
+    Arial,
+    sans-serif;
+}
 .top-title h3 {
   z-index: 1;
 }

@@ -1,11 +1,12 @@
-import {createRouter, createWebHistory} from 'vue-router';
-import {useUhuruStore} from '@/stores/uhuru.js'
+import { createRouter, createWebHistory } from 'vue-router'
+import { useUhuruStore } from '@/stores/uhuru.js'
 
-import LandingPage from "@/view/LandingPage.vue";
-import Home from "@/children/Home.vue";
+import LandingPage from '@/view/LandingPage.vue'
+import Home from '@/children/Home.vue'
 import Dash from '@/children/Dash.vue'
 import About from '@/children/About.vue'
 import Sign_up from '@/children/Sign_up.vue'
+import Login from '@/children/Login.vue'
 
 const routers = [
   {
@@ -41,34 +42,42 @@ const routers = [
         component: About,
         meta: {
           title: 'Get know about us',
-          description: "Read more to know us mostly who we are!"
+          description: 'Read more to know us mostly who we are!',
         },
       },
       {
         path: 'sign-up',
         name: 'register',
         component: Sign_up,
-        meta:{
-          title: "Registration",
-          description: `Register to our site and start from here`
-        }
-      }
+        meta: {
+          title: 'Registration',
+          description: `Register to our site and start from here`,
+        },
+      },
+      {
+        path: 'login',
+        name: 'login',
+        component: Login,
+        meta: {
+          title: 'Login',
+          description: 'Login to our site and then look for our academic issue',
+        },
+      },
     ],
   },
 ]
 const route = createRouter({
   history: createWebHistory('/file'),
-  routes: routers
+  routes: routers,
 })
-route.beforeEach((to, from)=>{
-
-    //set default title if not set
-    document.title = to.meta.title || "School App";
-    //Jaza description
+route.beforeEach((to, from) => {
+  //set default title if not set
+  document.title = to.meta.title || 'School App'
+  //Jaza description
   //Anza kwa kupata  description iliyopo
   const metaDescription = document.querySelector('meta[name="description"]')
-  if (metaDescription && to.meta.description){
-    metaDescription.setAttribute('content', to.meta.description);
+  if (metaDescription && to.meta.description) {
+    metaDescription.setAttribute('content', to.meta.description)
   }
 })
-export default route;
+export default route

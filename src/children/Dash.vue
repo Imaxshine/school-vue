@@ -1,5 +1,4 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
   <div class="container-fluid m-1" style="height: 100vh; font-family: Tahoma, Arial, SansSerif">
@@ -58,7 +57,7 @@
               </div>
 
               <!--                   End total-->
-                <!--      Male        -->
+              <!--      Male        -->
               <div class="card">
                 <div class="card-header text-center">MALE</div>
                 <div class="card-body d-flex justify-content-center">
@@ -76,7 +75,12 @@
               <div class="card">
                 <div class="card-header text-center">FEMALE</div>
                 <div class="card-body d-flex justify-content-center">
-                  <div class="female-shape d-flex justify-content-center align-items-center rounded-pill" style="background: rgb(138, 138, 232)">{{31}}</div>
+                  <div
+                    class="female-shape d-flex justify-content-center align-items-center rounded-pill"
+                    style="background: rgb(138, 138, 232)"
+                  >
+                    {{ 31 }}
+                  </div>
                 </div>
               </div>
               <!-- End Female  -->
@@ -95,15 +99,19 @@
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 10px;
 }
-.total-shape, .male-shape, .female-shape{
+.total-shape,
+.male-shape,
+.female-shape {
   height: 45px;
   width: 45px;
   font-size: 25px;
   font-weight: bold;
-  padding:15px;
+  padding: 15px;
 }
-.total-shape:hover, .male-shape:hover, .female-shape:hover{
+.total-shape:hover,
+.male-shape:hover,
+.female-shape:hover {
   transform: translateY(-12px);
-  box-shadow: 4px 6px 5px 5px rgba(0,0,0,0.3);
+  box-shadow: 4px 6px 5px 5px rgba(0, 0, 0, 0.3);
 }
 </style>
