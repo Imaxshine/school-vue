@@ -1,15 +1,13 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
-<div class="app-window container-fluid">
-  <RouterView />
-</div>
+  <div class="app-window container-fluid">
+    <RouterView />
+  </div>
 </template>
 
 <style scoped>
-.app-window{
+.app-window {
   margin: 0;
   padding: 0;
 }

@@ -6,7 +6,7 @@ import icon from '/icon/school.png'
   <nav class="navbar navbar-expand-lg bg-body-secondary">
     <div class="container-fluid">
       <div>
-        <RouterLink :to="{name: 'home'}">
+        <RouterLink :to="{ name: 'home' }">
           <img class="brand-image navbar-brand" :src="icon" alt="image" />
         </RouterLink>
       </div>
@@ -24,14 +24,14 @@ import icon from '/icon/school.png'
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ms-auto">
           <RouterLink class="nav-link fs-5" :to="{ name: 'home' }">Home</RouterLink>
-          <RouterLink class="nav-link fs-5" :to="{name: 'dash'}">Dashboard</RouterLink>
-<!--          <RouterLink class="nav-link fs-5" to="">Students</RouterLink>-->
-          <RouterLink class="nav-link fs-5" :to="{name: 'about'}">About us</RouterLink>
-          <RouterLink class="nav-link fs-5" to="">
+          <RouterLink class="nav-link fs-5" :to="{ name: 'dash' }">Dashboard</RouterLink>
+          <!--          <RouterLink class="nav-link fs-5" to="">Students</RouterLink>-->
+          <RouterLink class="nav-link fs-5" :to="{ name: 'about' }">About us</RouterLink>
+          <RouterLink class="nav-link fs-5" :to="{ name: 'login' }">
             <i class="bi bi-box-arrow-in-right text-success"></i>
             Login
           </RouterLink>
-          <RouterLink class="nav-link fs-5" :to="{name: 'register'}">
+          <RouterLink class="nav-link fs-5" :to="{ name: 'register' }">
             <i class="bi bi-people-fill text-success"></i>
             Sign-up
           </RouterLink>
@@ -53,20 +53,20 @@ import icon from '/icon/school.png'
   width: 60px;
   border-radius: 50%;
 }
-.body-container{
+.body-container {
   position: relative;
   height: 100vh;
   width: 100vw;
   overflow: hidden;
 }
-.body-container::before{
-  content: "";
+.body-container::before {
+  content: '';
   position: absolute;
-  top:0;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url("/student2.jpg");
+  background-image: url('/student2.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
