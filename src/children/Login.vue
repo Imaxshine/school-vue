@@ -1,6 +1,44 @@
 <script setup>
 import { ref } from 'vue'
+import {loginAPI as api} from '@/services/loginAPI';
+import {timeOut} from '@/functions/timer';
+
 const isViewed = ref(false)
+const isError = ref(false);
+const errorMsg = ref(null);
+// User Inputs
+const userName = ref("");
+const password = ref("");
+const userLogin = async function(){
+  if (userName.value === ""){
+    errorMsg.value = "Username is required";
+    isError.value = true;
+    await timeOut(3000);
+    isError.value = false;
+    errorMsg.value = null;
+    return;
+  }
+  if (password.value === ""){
+    errorMsg.value = "Password is required";
+    isError.value = true;
+    await timeOut(3000);
+    isError.value = false;
+    errorMsg.value = null;
+    return;
+  }
+  //Todo start the requests
+  try{
+    //Reset form inputs
+    userName.value = "";
+    password.value = "";
+
+    const response = await api.get('/login');
+  }catch (errors){
+    //show errors
+  }finally {
+    //close all progresses
+  }
+}
 
 const changeInputType = () => {
   isViewed.value = !isViewed.value
@@ -18,10 +56,16 @@ const changeInputType = () => {
               <img class="logo" src="/icon/background.png" alt="logo" />
             </p>
 
-            <form>
+            <form v-on:submit.prevent="userLogin">
               <div class="my-3">
                 <label class="form-label" for="username">Username</label>
-                <input class="form-control" type="text" placeholder="Username" id="username" />
+                <input
+                  class="form-control"
+                  v-model.trim="userName"
+                  type="text"
+                  placeholder="Username"
+                  id="username"
+                />
               </div>
 
               <div class="pass my-3">
@@ -29,6 +73,7 @@ const changeInputType = () => {
                 <input
                   class="form-control"
                   :type="isViewed ? 'text' : 'password'"
+                  v-model.trim="password"
                   placeholder="XXXXXX"
                   id="password"
                 />
@@ -39,6 +84,7 @@ const changeInputType = () => {
               </div>
 
               <div class="my-3 text-center">
+                <p v-if="isError" class="alert alert-danger text-start">{{ errorMsg }}</p>
                 <button class="btn btn-primary w-100 p-3">Login</button>
               </div>
 
@@ -102,6 +148,7 @@ const changeInputType = () => {
 input {
   height: 50px;
   font-family: ui-sans-serif;
+  font-size: 20px;
 }
 label {
   font-weight: bold;

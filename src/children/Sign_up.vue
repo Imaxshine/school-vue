@@ -124,6 +124,7 @@ function changeIcons() {
 input {
   height: 50px;
   font-family: ui-sans-serif;
+  font-size: 20px;
 }
 .pass {
   position: relative;
