@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useUhuruStore } from '@/stores/uhuru.js'
+import {useTokenStore} from '@/stores/token'
 
 import LandingPage from '@/view/LandingPage.vue'
 import Home from '@/children/Home.vue'
@@ -33,6 +33,7 @@ const routers = [
         name: 'dash',
         component: Dash,
         meta: {
+          isAuth: true,
           title: 'Role over view',
           description: 'Our school performance over view',
         },
@@ -80,6 +81,7 @@ const route = createRouter({
   routes: routers,
 })
 route.beforeEach((to, from) => {
+  const tokenStore = useTokenStore();
   //set default title if not set
   document.title = to.meta.title || 'School App'
   //Jaza description
@@ -88,5 +90,10 @@ route.beforeEach((to, from) => {
   if (metaDescription && to.meta.description) {
     metaDescription.setAttribute('content', to.meta.description)
   }
+
+  if (to.meta.isAuth && !tokenStore.token){
+    return {name: 'login'};
+  }
+  return true;
 })
 export default route

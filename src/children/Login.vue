@@ -3,6 +3,10 @@ import { ref } from 'vue'
 import { loginAPI as api } from '@/services/loginAPI'
 import { timeOut } from '@/functions/timer'
 import Loader from '@/view/Loader.vue'
+import { useTokenStore } from '@/stores/token'
+const tokenStore = useTokenStore()
+//Router
+const router = useRouter()
 
 const isViewed = ref(false)
 const isError = ref(false)
@@ -30,15 +34,35 @@ const userLogin = async function () {
   }
   //Todo start the requests
   try {
-    //Reset form inputs
-    // userName.value = ''
-    // password.value = ''
+    const payload = ref({
+      name: userName.value,
+      password: password.value,
+    })
     isLoad.value = true
-    const response = await api.get('/login')
+    const response = await api.post('/login', payload.value)
+    //Investigate data
+    if (response.data.error) {
+      errorMsg.value = `${response.data.error}`
+      isError.value = true
+      isLoad.value = false
+      await timeOut(3000)
+      isError.value = false
+      errorMsg.value = null
+      return
+    }
+    if (response.data.token) {
+      //Reset form inputs
+      userName.value = ''
+      password.value = ''
+
+      const JwtToken = response.data.token
+      tokenStore.setToken(JwtToken)
+      await router.replace({name: 'dash'});
+    }
   } catch (errors) {
     errorMsg.value = 'Failed to fetch information, try again later'
-    isError.value = true;
-    isLoad.value = false;
+    isError.value = true
+    isLoad.value = false
     await timeOut(4000)
     isError.value = false
     errorMsg.value = null
@@ -50,6 +74,7 @@ const userLogin = async function () {
 const changeInputType = () => {
   isViewed.value = !isViewed.value
 }
+import { useRouter } from 'vue-router'
 </script>
 
 <template>
