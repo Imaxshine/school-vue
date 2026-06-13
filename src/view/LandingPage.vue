@@ -1,5 +1,6 @@
 <script setup>
 import icon from '/icon/school.png'
+import Loader from '@/view/Loader.vue'
 </script>
 
 <template>

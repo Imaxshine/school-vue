@@ -141,7 +141,7 @@ input {
 }
 .right_image {
   border-radius: 10px;
-  height: 90vh;
+  height: 50vh;
   width: 100%;
 }
 label {

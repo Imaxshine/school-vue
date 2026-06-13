@@ -1,42 +1,49 @@
 <script setup>
 import { ref } from 'vue'
-import {loginAPI as api} from '@/services/loginAPI';
-import {timeOut} from '@/functions/timer';
+import { loginAPI as api } from '@/services/loginAPI'
+import { timeOut } from '@/functions/timer'
+import Loader from '@/view/Loader.vue'
 
 const isViewed = ref(false)
-const isError = ref(false);
-const errorMsg = ref(null);
+const isError = ref(false)
+const errorMsg = ref(null)
+const isLoad = ref(false)
 // User Inputs
-const userName = ref("");
-const password = ref("");
-const userLogin = async function(){
-  if (userName.value === ""){
-    errorMsg.value = "Username is required";
-    isError.value = true;
-    await timeOut(3000);
-    isError.value = false;
-    errorMsg.value = null;
-    return;
+const userName = ref('')
+const password = ref('')
+const userLogin = async function () {
+  if (userName.value === '') {
+    errorMsg.value = 'Username is required'
+    isError.value = true
+    await timeOut(3000)
+    isError.value = false
+    errorMsg.value = null
+    return
   }
-  if (password.value === ""){
-    errorMsg.value = "Password is required";
-    isError.value = true;
-    await timeOut(3000);
-    isError.value = false;
-    errorMsg.value = null;
-    return;
+  if (password.value === '') {
+    errorMsg.value = 'Password is required'
+    isError.value = true
+    await timeOut(3000)
+    isError.value = false
+    errorMsg.value = null
+    return
   }
   //Todo start the requests
-  try{
+  try {
     //Reset form inputs
-    userName.value = "";
-    password.value = "";
-
-    const response = await api.get('/login');
-  }catch (errors){
-    //show errors
-  }finally {
-    //close all progresses
+    // userName.value = ''
+    // password.value = ''
+    isLoad.value = true
+    const response = await api.get('/login')
+  } catch (errors) {
+    errorMsg.value = 'Failed to fetch information, try again later'
+    isError.value = true;
+    isLoad.value = false;
+    await timeOut(4000)
+    isError.value = false
+    errorMsg.value = null
+  } finally {
+    isLoad.value = false
   }
 }
 
@@ -46,6 +53,10 @@ const changeInputType = () => {
 </script>
 
 <template>
+  <!--  Loader-->
+  <div v-if="isLoad">
+    <Loader />
+  </div>
   <div class="container my-2">
     <div class="row card_holder">
       <div class="col-lg-7 col-md-6 col-sm-12">
@@ -69,7 +80,7 @@ const changeInputType = () => {
               </div>
 
               <div class="pass my-3">
-                <label class="form-label" for="password">Username</label>
+                <label class="form-label" for="password">Password</label>
                 <input
                   class="form-control"
                   :type="isViewed ? 'text' : 'password'"
@@ -104,7 +115,7 @@ const changeInputType = () => {
               src="/student5.jpg"
               alt="image"
               class="d-none d-lg-block d-md-block d-sm-none"
-              style="border-radius: 10px; height: 90vh; width: 100%"
+              style="border-radius: 10px; height: 50vh; width: 100%"
             />
 
             <p>

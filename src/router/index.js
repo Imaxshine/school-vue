@@ -7,6 +7,7 @@ import Dash from '@/children/Dash.vue'
 import About from '@/children/About.vue'
 import Sign_up from '@/children/Sign_up.vue'
 import Login from '@/children/Login.vue'
+import NotFound from '@/view/NotFound.vue'
 
 const routers = [
   {
@@ -65,6 +66,14 @@ const routers = [
       },
     ],
   },
+  {
+    path: '/:ErrorPage(.*)*',
+    name: 'notFound',
+    component: NotFound,
+    meta: {
+      title: "404 Not Found"
+    }
+  }
 ]
 const route = createRouter({
   history: createWebHistory('/'),
