@@ -1,13 +1,87 @@
 <script setup>
 import { ref } from 'vue'
+import { loginAPI as api } from '@/services/loginAPI'
+import { timeOut } from '@/functions/timer'
+import Loader from '@/view/Loader.vue'
+import { useTokenStore } from '@/stores/token'
+const tokenStore = useTokenStore()
+//Router
+const router = useRouter()
+
 const isViewed = ref(false)
+const isError = ref(false)
+const errorMsg = ref(null)
+const isLoad = ref(false)
+// User Inputs
+const userName = ref('')
+const password = ref('')
+const userLogin = async function () {
+  if (userName.value === '') {
+    errorMsg.value = 'Username is required'
+    isError.value = true
+    await timeOut(3000)
+    isError.value = false
+    errorMsg.value = null
+    return
+  }
+  if (password.value === '') {
+    errorMsg.value = 'Password is required'
+    isError.value = true
+    await timeOut(3000)
+    isError.value = false
+    errorMsg.value = null
+    return
+  }
+  //Todo start the requests
+  try {
+    const payload = ref({
+      name: userName.value,
+      password: password.value,
+    })
+    isLoad.value = true
+    const response = await api.post('/login', payload.value)
+    //Investigate data
+    if (response.data.error) {
+      errorMsg.value = `${response.data.error}`
+      isError.value = true
+      isLoad.value = false
+      await timeOut(3000)
+      isError.value = false
+      errorMsg.value = null
+      return
+    }
+    if (response.data.token) {
+      //Reset form inputs
+      userName.value = ''
+      password.value = ''
+
+      const JwtToken = response.data.token
+      tokenStore.setToken(JwtToken)
+      await router.replace({name: 'dash'});
+    }
+  } catch (errors) {
+    errorMsg.value = 'Failed to fetch information, try again later'
+    isError.value = true
+    isLoad.value = false
+    await timeOut(4000)
+    isError.value = false
+    errorMsg.value = null
+  } finally {
+    isLoad.value = false
+  }
+}
 
 const changeInputType = () => {
   isViewed.value = !isViewed.value
 }
+import { useRouter } from 'vue-router'
 </script>
 
 <template>
+  <!--  Loader-->
+  <div v-if="isLoad">
+    <Loader />
+  </div>
   <div class="container my-2">
     <div class="row card_holder">
       <div class="col-lg-7 col-md-6 col-sm-12">
@@ -18,17 +92,24 @@ const changeInputType = () => {
               <img class="logo" src="/icon/background.png" alt="logo" />
             </p>
 
-            <form>
+            <form v-on:submit.prevent="userLogin">
               <div class="my-3">
                 <label class="form-label" for="username">Username</label>
-                <input class="form-control" type="text" placeholder="Username" id="username" />
+                <input
+                  class="form-control"
+                  v-model.trim="userName"
+                  type="text"
+                  placeholder="Username"
+                  id="username"
+                />
               </div>
 
               <div class="pass my-3">
-                <label class="form-label" for="password">Username</label>
+                <label class="form-label" for="password">Password</label>
                 <input
                   class="form-control"
                   :type="isViewed ? 'text' : 'password'"
+                  v-model.trim="password"
                   placeholder="XXXXXX"
                   id="password"
                 />
@@ -39,6 +120,7 @@ const changeInputType = () => {
               </div>
 
               <div class="my-3 text-center">
+                <p v-if="isError" class="alert alert-danger text-start">{{ errorMsg }}</p>
                 <button class="btn btn-primary w-100 p-3">Login</button>
               </div>
 
@@ -58,7 +140,7 @@ const changeInputType = () => {
               src="/student5.jpg"
               alt="image"
               class="d-none d-lg-block d-md-block d-sm-none"
-              style="border-radius: 10px; height: 90vh; width: 100%"
+              style="border-radius: 10px; height: 50vh; width: 100%"
             />
 
             <p>
@@ -102,6 +184,7 @@ const changeInputType = () => {
 input {
   height: 50px;
   font-family: ui-sans-serif;
+  font-size: 20px;
 }
 label {
   font-weight: bold;

@@ -54,7 +54,7 @@ function changeIcons() {
               </div>
 
               <div class="my-3 text-center">
-                <button class="btn btn-primary w-100 p-3">Sign-up</button>
+                <button class="btn btn-primary w-100 p-3">Sign up</button>
               </div>
 
               <div class="text-end">
@@ -124,6 +124,7 @@ function changeIcons() {
 input {
   height: 50px;
   font-family: ui-sans-serif;
+  font-size: 20px;
 }
 .pass {
   position: relative;
@@ -140,7 +141,7 @@ input {
 }
 .right_image {
   border-radius: 10px;
-  height: 90vh;
+  height: 50vh;
   width: 100%;
 }
 label {
