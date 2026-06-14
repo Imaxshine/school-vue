@@ -3,10 +3,11 @@ import { ref } from 'vue'
 import { loginAPI as api } from '@/services/loginAPI'
 import { timeOut } from '@/functions/timer'
 import Loader from '@/view/Loader.vue'
+import {useRouter} from "vue-router";
 import { useTokenStore } from '@/stores/token'
-const tokenStore = useTokenStore()
-//Router
-const router = useRouter()
+const token = useTokenStore()
+const router = useRouter();
+
 
 const isViewed = ref(false)
 const isError = ref(false)
@@ -50,14 +51,13 @@ const userLogin = async function () {
       errorMsg.value = null
       return
     }
+    // Todo When token available
     if (response.data.token) {
       //Reset form inputs
       userName.value = ''
       password.value = ''
-
-      const JwtToken = response.data.token
-      tokenStore.setToken(JwtToken)
-      await router.replace({name: 'dash'});
+      token.setToken(response.data.token);
+      await router.replace({name: 'dash'})
     }
   } catch (errors) {
     errorMsg.value = 'Failed to fetch information, try again later'
@@ -74,7 +74,6 @@ const userLogin = async function () {
 const changeInputType = () => {
   isViewed.value = !isViewed.value
 }
-import { useRouter } from 'vue-router'
 </script>
 
 <template>

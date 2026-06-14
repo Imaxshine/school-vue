@@ -1,6 +1,20 @@
 <script setup>
 import icon from '/icon/school.png'
-import Loader from '@/view/Loader.vue'
+import { ref } from 'vue'
+import { useTokenStore } from '@/stores/token'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const token = useTokenStore()
+
+const logout = async () => {
+  const message = ref('You are about to logout from this site, press cancel to exit!')
+  if (confirm(message.value)) {
+    token.removeToken()
+    await router.replace({ name: 'login' })
+  }else{
+    return null;
+  }
+}
 </script>
 
 <template>
@@ -28,13 +42,17 @@ import Loader from '@/view/Loader.vue'
           <RouterLink class="nav-link fs-5" :to="{ name: 'dash' }">Dashboard</RouterLink>
           <!--          <RouterLink class="nav-link fs-5" to="">Students</RouterLink>-->
           <RouterLink class="nav-link fs-5" :to="{ name: 'about' }">About us</RouterLink>
-          <RouterLink class="nav-link fs-5" :to="{ name: 'login' }">
+          <RouterLink v-if="!token.isLogin" class="nav-link fs-5" :to="{ name: 'login' }">
             <i class="bi bi-box-arrow-in-right text-success"></i>
             Login
           </RouterLink>
-          <RouterLink class="nav-link fs-5" :to="{ name: 'register' }">
+          <RouterLink v-if="!token.isLogin" class="nav-link fs-5" :to="{ name: 'register' }">
             <i class="bi bi-people-fill text-success"></i>
             Sign-up
+          </RouterLink>
+          <RouterLink v-if="token.isLogin" class="nav-link fs-5 text-danger" to="" @click="logout">
+            <i class="bi bi-box-arrow-left"></i>
+            Logout
           </RouterLink>
         </div>
       </div>

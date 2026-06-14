@@ -91,7 +91,7 @@ route.beforeEach((to, from) => {
     metaDescription.setAttribute('content', to.meta.description)
   }
 
-  if (to.meta.isAuth && !tokenStore.token){
+  if (to.meta.isAuth && !tokenStore.isLogin){
     return {name: 'login'};
   }
   return true;
