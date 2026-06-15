@@ -1,4 +1,26 @@
-<script setup></script>
+<script setup>
+import {ref} from 'vue';
+const userInput = ref("");
+import {useSchoolStore} from '@/stores/schoolStore';
+const school = useSchoolStore();
+
+function saveSchoolName(){
+  if (userInput.value === ""){
+    return
+  }
+  if (school.isSchoolNameAvailable){
+    alert('You have already enroll an exist one');
+    return;
+  }
+  if (userInput.value.length < 5){
+    alert('Your enrollment has character less than 5', userInput.value.length)
+    return
+  }
+  school.enrollSchoolName(userInput.value);
+  alert(`Congratulation, you have enroll ${userInput.value}`);
+
+}
+</script>
 
 <template>
   <div class="container-fluid m-1" style="height: 100vh; font-family: Tahoma, Arial, SansSerif">
@@ -7,13 +29,21 @@
     </div>
 
     <div
-      class="card p-2 my-2 overflow-auto"
+      class="card p-2 my-2"
       style="background: linear-gradient(65.6deg, #4e4e6c, #506350, #3c3b3b); color: #d3cbcb"
     >
       <div class="card-body">
         <div class="row">
+          <!-- Enroll form of a new school -->
+          <div class="my-2 text-end">
+            <input type="text" v-model.trim="userInput"
+                   @keyup.enter="saveSchoolName"
+                   placeholder="Kilimanjaro pri/secondary" />
+            <button class="m-1" @click="saveSchoolName">Enroll</button>
+          </div>
+          <hr>
           <!-- Table  -->
-          <div class="col-lg-7 col-sm-12">
+          <div class="mb-2 col-lg-7 col-sm-12 overflow-auto">
             <table class="table">
               <thead>
                 <tr>

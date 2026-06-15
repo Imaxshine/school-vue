@@ -1,10 +1,8 @@
 <script setup>
 import { timeOut } from '@/functions/timer'
-import { useUhuruStore } from '@/stores/uhuru'
-const data = useUhuruStore()
-const currentSchool = data.updateSchoolName('Feza boys')
-const displayName = data.displayName
-// updateSchoolName('')
+import { useSchoolStore } from '@/stores/schoolStore'
+const school = useSchoolStore()
+
 
 import { ref } from 'vue'
 const isOpened = ref(false)
@@ -25,7 +23,7 @@ const getUserName = async () => {
     await navigator.clipboard.writeText(userName)
     isCopied.value = true
     user_name.value = 'Copied✔'
-    await timeOut(4000)
+    await timeOut(1000)
     isCopied.value = false
     user_name.value = 'copy username'
   }
@@ -36,7 +34,7 @@ const getPassword = async () => {
     await navigator.clipboard.writeText(password.value.textContent)
     isPassCopied.value = true
     pass_btn.value.textContent = 'Copied ✔'
-    await timeOut(4000)
+    await timeOut(1000)
     isPassCopied.value = false
     pass_btn.value.textContent = 'copy password'
   }
@@ -45,8 +43,11 @@ const getPassword = async () => {
 
 <template>
   <div class="container-fluid" style="font-family: Tahoma, Arial, SansSerif">
-    <div class="bg-info p-2 top-title mt-1 rounded-1">
-      <h3 class="text-center">{{ displayName }}</h3>
+    <div v-if="school.isSchoolNameAvailable" class="bg-info p-2 top-title mt-1 rounded-1">
+      <h3 class="text-center">{{school.displayName}}</h3>
+    </div>
+    <div v-else class="bg-dark p-2 top-title mt-1 rounded-1">
+      <h3 class="text-center"><RouterLink class="text-decoration-none" :to="{name: 'dash'}" >Click to enroll your own school and will appear here </RouterLink></h3>
     </div>
 
     <div class="s2-container mb-4">
