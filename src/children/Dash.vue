@@ -1,8 +1,13 @@
 <script setup>
-import {ref} from 'vue';
+import {ref, onMounted} from 'vue';
 const userInput = ref("");
 import {useSchoolStore} from '@/stores/schoolStore';
+import {useUsersStore} from '@/stores/usersStore'
 const school = useSchoolStore();
+const users = useUsersStore();
+onMounted(()=>{
+  users.getUsers();
+})
 
 function saveSchoolName(){
   if (userInput.value === ""){
@@ -18,6 +23,26 @@ function saveSchoolName(){
   }
   school.enrollSchoolName(userInput.value);
   alert(`Congratulation, you have enroll ${userInput.value}`);
+  userInput.value = "";
+
+}
+const unEnroll = ()=>{
+  const currentSchoolName = localStorage.getItem('school_name');
+  const msg = `You are near to completely unenroll ${currentSchoolName}`;
+  if (confirm(msg)){
+    school.unEnroll()
+  }
+}
+const updateSchoolName = ()=>{
+  const currentSchoolName = localStorage.getItem('school_name');
+  const newName = prompt('Inter a new school name', currentSchoolName);
+  if (newName.trim() === "") return
+  if (newName !== currentSchoolName){
+    school.updateEnrolled(newName);
+    alert('Update success');
+  }else {
+    console.log('The same statement!')
+  }
 
 }
 </script>
@@ -25,7 +50,7 @@ function saveSchoolName(){
 <template>
   <div class="container-fluid m-1" style="height: 100vh; font-family: Tahoma, Arial, SansSerif">
     <div class="bg-info p-2 text-center rounded-1">
-      <h3>Dashboard</h3>
+      <h3>Dashboard <span v-if="school.isSchoolNameAvailable">for {{school.schoolName}}</span></h3>
     </div>
 
     <div
@@ -38,8 +63,11 @@ function saveSchoolName(){
           <div class="my-2 text-end">
             <input type="text" v-model.trim="userInput"
                    @keyup.enter="saveSchoolName"
+                   class="enroll_input"
                    placeholder="Kilimanjaro pri/secondary" />
-            <button class="m-1" @click="saveSchoolName">Enroll</button>
+            <button class="m-1 buttons" @click="saveSchoolName" :class="school.isSchoolNameAvailable ? 'myBtn':null " :disabled="school.isSchoolNameAvailable" :title="school.isSchoolNameAvailable? 'Restricted':'Enroll a new school name'"> <i class="bi bi-plus-lg"></i> Enroll new</button>
+            <button class="m-1 buttons" :disabled="!school.isSchoolNameAvailable" :class="!school.isSchoolNameAvailable? 'myBtn':null" v-on:click="unEnroll" :title="!school.isSchoolNameAvailable? 'Restricted':`Unenroll ${school.schoolName}` "> <i class="bi bi-dash-lg"></i> Unenroll</button>
+            <button class="m-1 buttons" :disabled="!school.isSchoolNameAvailable" :class="!school.isSchoolNameAvailable? 'myBtn':null" :title="!school.isSchoolNameAvailable? 'Restricted':'Update a school name'" @click="updateSchoolName"> <i class="bi bi-arrow-down-up"></i> Update name</button>
           </div>
           <hr>
           <!-- Table  -->
@@ -143,5 +171,23 @@ function saveSchoolName(){
 .female-shape:hover {
   transform: translateY(-12px);
   box-shadow: 4px 6px 5px 5px rgba(0, 0, 0, 0.3);
+}
+.myBtn{
+  cursor: not-allowed;
+  background-color: #a8a6a6;
+}
+.enroll_input{
+  padding: 7px;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  font-size: 20px;
+}
+.buttons{
+  /*background-color: #1f60b4;*/
+  color: rgba(7, 7, 7, 0.93);
+  padding: 5px 8px;
+  border: none;
+  border-radius: 9px;
 }
 </style>

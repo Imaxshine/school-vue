@@ -14,6 +14,14 @@ export const useSchoolStore = defineStore('school', () => {
     localStorage.setItem('school_name', newName);
     schoolName.value = newName;
   }
+  function unEnroll(){
+    localStorage.removeItem('school_name');
+    schoolName.value = null;
+  }
+  function updateEnrolled(newName){
+    localStorage.setItem('school_name', newName)
+    schoolName.value = newName;
+  }
   return {
     //state
     schoolName,
@@ -21,6 +29,8 @@ export const useSchoolStore = defineStore('school', () => {
     displayName,
     isSchoolNameAvailable,
     //Actions
+    unEnroll,
+    updateEnrolled,
     enrollSchoolName,
   }
 })

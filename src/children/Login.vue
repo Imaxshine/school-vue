@@ -4,7 +4,9 @@ import { loginAPI as api } from '@/services/loginAPI'
 import { timeOut } from '@/functions/timer'
 import Loader from '@/view/Loader.vue'
 import {useRouter} from "vue-router";
-import { useTokenStore } from '@/stores/token'
+import { useTokenStore } from '@/stores/token';
+import {useFormStore} from '@/stores/formStore';
+const formStore = useFormStore();
 const token = useTokenStore()
 const router = useRouter();
 
@@ -17,7 +19,7 @@ const isLoad = ref(false)
 const userName = ref('')
 const password = ref('')
 const userLogin = async function () {
-  if (userName.value === '') {
+  if (formStore.username === '') {
     errorMsg.value = 'Username is required'
     isError.value = true
     await timeOut(3000)
@@ -25,7 +27,7 @@ const userLogin = async function () {
     errorMsg.value = null
     return
   }
-  if (password.value === '') {
+  if (formStore.password === '') {
     errorMsg.value = 'Password is required'
     isError.value = true
     await timeOut(3000)
@@ -36,8 +38,8 @@ const userLogin = async function () {
   //Todo start the requests
   try {
     const payload = ref({
-      name: userName.value,
-      password: password.value,
+      name: formStore.username,
+      password: formStore.password,
     })
     isLoad.value = true
     const response = await api.post('/login', payload.value)
@@ -54,8 +56,7 @@ const userLogin = async function () {
     // Todo When token available
     if (response.data.token) {
       //Reset form inputs
-      userName.value = ''
-      password.value = ''
+      formStore.clearLoginForm();
       token.setToken(response.data.token);
       await router.replace({name: 'dash'})
     }
@@ -96,7 +97,7 @@ const changeInputType = () => {
                 <label class="form-label" for="username">Username</label>
                 <input
                   class="form-control"
-                  v-model.trim="userName"
+                  v-model.trim="formStore.username"
                   type="text"
                   placeholder="Username"
                   id="username"
@@ -108,7 +109,7 @@ const changeInputType = () => {
                 <input
                   class="form-control"
                   :type="isViewed ? 'text' : 'password'"
-                  v-model.trim="password"
+                  v-model.trim="formStore.password"
                   placeholder="XXXXXX"
                   id="password"
                 />

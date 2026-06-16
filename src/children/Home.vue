@@ -158,7 +158,7 @@ const getPassword = async () => {
                     <div class="card-footer mt-2">
                       <p class="footer-content">
                         These all, allowed by this app developer only for the purposes of web test
-                        and then use them in <RouterLink class="" to="#">login-form</RouterLink>
+                        and then use them to reach your <RouterLink class="" :to="{name: 'dash'}">dashboard</RouterLink>
                         <br />
                         &copy; all copy-right
                       </p>
