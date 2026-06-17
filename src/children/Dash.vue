@@ -214,11 +214,4 @@ const updateSchoolName = ()=>{
   border: none;
   border-radius: 9px;
 }
-thead tr th{
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
 </style>
