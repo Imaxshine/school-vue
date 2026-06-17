@@ -1,6 +1,8 @@
 <script setup>
 import {ref, onMounted} from 'vue';
 const userInput = ref("");
+import Loader from '@/view/Loader.vue';
+import Alerts from '@/view/Alerts.vue'
 import {useSchoolStore} from '@/stores/schoolStore';
 import {useUsersStore} from '@/stores/usersStore'
 const school = useSchoolStore();
@@ -48,13 +50,31 @@ const updateSchoolName = ()=>{
 </script>
 
 <template>
+  <div v-if="users.loading">
+    <Loader />
+  </div>
+<!--  Slots-->
+  <div v-if="users.isNotification">
+    <Alerts color="red">
+      <template #alert>
+        <div>
+          <p class="fs-5 fw-bolder">{{users.errorMsg}}</p>
+          <div class="my-3 text-end">
+            <button class="btn btn-info" @click="users.getUsers()">Try again</button>
+          </div>
+        </div>
+      </template>
+    </Alerts>
+  </div>
+<!--  End slots-->
+
   <div class="container-fluid m-1" style="height: 100vh; font-family: Tahoma, Arial, SansSerif">
     <div class="bg-info p-2 text-center rounded-1">
       <h3>Dashboard <span v-if="school.isSchoolNameAvailable">for {{school.schoolName}}</span></h3>
     </div>
 
     <div
-      class="card p-2 my-2"
+      class="card p-2 my-2 h-50 overflow-y-scroll"
       style="background: linear-gradient(65.6deg, #4e4e6c, #506350, #3c3b3b); color: #d3cbcb"
     >
       <div class="card-body">
@@ -71,7 +91,7 @@ const updateSchoolName = ()=>{
           </div>
           <hr>
           <!-- Table  -->
-          <div class="mb-2 col-lg-7 col-sm-12 overflow-auto">
+          <div class="table_holder mb-2 col-lg-7 col-sm-12">
             <table class="table">
               <thead>
                 <tr>
@@ -79,19 +99,19 @@ const updateSchoolName = ()=>{
                   <th>Full name</th>
                   <th>Gender</th>
                   <th>Mathematics</th>
-                  <th>Language</th>
                   <th>Geography</th>
+                  <th>Language</th>
                 </tr>
               </thead>
 
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Emmanuel - Modest</td>
-                  <td>ME</td>
-                  <td>45</td>
-                  <td>56</td>
-                  <td>76</td>
+                <tr v-for="(user,index) in users.users" :key="user.id">
+                  <td>{{index + 1}}</td>
+                  <td>{{user.firstName}} - {{user.lastName}}</td>
+                  <td>{{user.gender}}</td>
+                  <td>{{user.subjects[0].marks}}</td>
+                  <td>{{user.subjects[1].marks}}</td>
+                  <td>{{user.subjects[2].marks}}</td>
                 </tr>
               </tbody>
             </table>
@@ -171,6 +191,10 @@ const updateSchoolName = ()=>{
 .female-shape:hover {
   transform: translateY(-12px);
   box-shadow: 4px 6px 5px 5px rgba(0, 0, 0, 0.3);
+}
+.table_holder{
+  height: 300px;
+  overflow-y: auto;
 }
 .myBtn{
   cursor: not-allowed;
