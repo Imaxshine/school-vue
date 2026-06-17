@@ -92,7 +92,7 @@ const updateSchoolName = ()=>{
           <hr>
           <!-- Table  -->
           <div class="table_holder mb-2 col-lg-7 col-sm-12">
-            <table class="table">
+            <table class="table table-dark table-hover">
               <thead>
                 <tr>
                   <th>#</th>
@@ -213,5 +213,12 @@ const updateSchoolName = ()=>{
   padding: 5px 8px;
   border: none;
   border-radius: 9px;
+}
+thead tr th{
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 </style>

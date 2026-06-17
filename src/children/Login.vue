@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { loginAPI as api } from '@/services/loginAPI'
-import { timeOut } from '@/functions/timer'
+import { timeOut } from '@/functions/timer';
 import Loader from '@/view/Loader.vue'
 import {useRouter} from "vue-router";
 import { useTokenStore } from '@/stores/token';
@@ -82,6 +82,14 @@ const changeInputType = () => {
   <div v-if="isLoad">
     <Loader />
   </div>
+<!--  End Loader-->
+<!--  Alert-->
+  <div>
+    <Alerts>
+
+    </Alerts>
+  </div>
+<!--  Alert-->
   <div class="container my-2">
     <div class="row card_holder">
       <div class="col-lg-7 col-md-6 col-sm-12">
