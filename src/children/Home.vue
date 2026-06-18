@@ -1,8 +1,13 @@
 <script setup>
-import { timeOut } from '@/functions/timer'
+import {onMounted} from 'vue';
+import { timeOut } from '@/functions/timer';
+import Loader from '@/view/Loader.vue';
+import Alerts from '@/view/Alerts.vue';
 import { useSchoolStore } from '@/stores/schoolStore'
-const school = useSchoolStore()
+import {useUsersStore} from '@/stores/usersStore';
+const user = useUsersStore();
 
+const school = useSchoolStore()
 
 import { ref } from 'vue'
 const isOpened = ref(false)
@@ -39,74 +44,49 @@ const getPassword = async () => {
     pass_btn.value.textContent = 'copy password'
   }
 }
+//OnMounted
+onMounted(()=>{
+  user.getUsers();
+})
 </script>
 
 <template>
+<!--  Loader-->
+  <div v-if="user.loading">
+    <Loader />
+  </div>
+<!--  End Loader-->
+
+<!--  Alert-->
+  <div v-if="user.isNotification">
+    <Alerts>
+      <template v-slot:alert>
+        <div>
+          <p class="fs-5 fw-bolder text-danger">{{user.errorMsg}}</p>
+          <div class="text-end">
+            <button class="btn btn-info" @click="user.getUsers()">Try again</button>
+          </div>
+        </div>
+      </template>
+    </Alerts>
+  </div>
+<!--  End Alert-->
+
   <div class="container-fluid" style="font-family: Tahoma, Arial, SansSerif">
     <div v-if="school.isSchoolNameAvailable" class="bg-info p-2 top-title mt-1 rounded-1">
-      <h3 class="text-center">{{school.displayName}}</h3>
+      <h3 class="text-center">{{ school.displayName }}</h3>
     </div>
     <div v-else class="bg-dark p-2 top-title mt-1 rounded-1">
-      <h3 class="text-center"><RouterLink class="text-decoration-none" :to="{name: 'dash'}" >Click to enroll your own school and will appear here </RouterLink></h3>
+      <h3 class="text-center">
+        <RouterLink class="text-decoration-none" :to="{ name: 'dash' }"
+          >Click to enroll your own school and will appear here
+        </RouterLink>
+      </h3>
     </div>
 
     <div class="s2-container mb-4">
       <div class="main-card overflow-auto p-3">
         <!--    Nguzo 3    -->
-        <div class="info-card">
-          <!--          TOTAL-->
-          <div class="card p-1">
-            <div class="card-header">TOTAL</div>
-            <div class="card-body d-flex justify-content-center">
-              <div class="total-shaped rounded-pill">
-                <div>{{ 50 }}</div>
-              </div>
-            </div>
-            <!-- button   -->
-            <div>
-              <RouterLink class="btn btn-primary w-100 text-decoration-none" :to="{name: 'dash'}">{{
-                'OPEN IN DASHBOARD'
-              }}</RouterLink>
-            </div>
-          </div>
-        </div>
-        <!--        End total-->
-
-        <!--        Female-->
-        <div class="info-card">
-          <div class="card p-1">
-            <div class="card-header">FEMALE</div>
-            <div class="card-body d-flex justify-content-center">
-              <div class="female-shape rounded-pill">{{ 31 }}</div>
-            </div>
-            <!-- button   -->
-            <div>
-              <RouterLink class="btn btn-primary w-100 text-decoration-none" to="">{{
-                'OPEN IN DASHBOARD'
-              }}</RouterLink>
-            </div>
-          </div>
-        </div>
-        <!--        End Female-->
-
-        <!--        Male-->
-        <div class="info-card">
-          <div class="card p-1">
-            <div class="card-header">MALE</div>
-            <div class="card-body d-flex justify-content-center">
-              <div class="male-shape rounded-pill">
-                <div>{{ 19 }}</div>
-              </div>
-            </div>
-            <!-- button   -->
-            <div>
-              <RouterLink class="btn btn-primary w-100 text-decoration-none" to="">{{
-                'OPEN IN DASHBOARD'
-              }}</RouterLink>
-            </div>
-          </div>
-        </div>
-        <!--        End Male-->
 
         <!--   Testing credentials     -->
         <div class="info-card">
@@ -158,7 +138,8 @@ const getPassword = async () => {
                     <div class="card-footer mt-2">
                       <p class="footer-content">
                         These all, allowed by this app developer only for the purposes of web test
-                        and then use them to reach your <RouterLink class="" :to="{name: 'dash'}">dashboard</RouterLink>
+                        and then use them to reach your
+                        <RouterLink class="" :to="{ name: 'dash' }">dashboard</RouterLink>
                         <br />
                         &copy; all copy-right
                       </p>
@@ -171,6 +152,63 @@ const getPassword = async () => {
           </div>
         </div>
         <!-- End credentials -->
+
+        <div class="info-card">
+          <!--          TOTAL-->
+          <div class="card p-1">
+            <div class="card-header">TOTAL</div>
+            <div class="card-body d-flex justify-content-center">
+              <div class="total-shaped rounded-pill">
+                <div>{{user.users.length}}</div>
+              </div>
+            </div>
+            <!-- button   -->
+            <div>
+              <RouterLink
+                class="btn btn-primary w-100 text-decoration-none"
+                :to="{ name: 'dash' }"
+                >{{ 'OPEN IN DASHBOARD' }}</RouterLink
+              >
+            </div>
+          </div>
+        </div>
+        <!--        End total-->
+
+        <!--        Female-->
+        <div class="info-card">
+          <div class="card p-1">
+            <div class="card-header">FEMALE</div>
+            <div class="card-body d-flex justify-content-center">
+              <div class="female-shape rounded-pill">{{user.getTotalFemales}}</div>
+            </div>
+            <!-- button   -->
+            <div>
+              <RouterLink class="btn btn-primary w-100 text-decoration-none" to="">{{
+                'OPEN IN DASHBOARD'
+              }}</RouterLink>
+            </div>
+          </div>
+        </div>
+        <!--        End Female-->
+
+        <!--        Male-->
+        <div class="info-card">
+          <div class="card p-1">
+            <div class="card-header">MALE</div>
+            <div class="card-body d-flex justify-content-center">
+              <div class="male-shape rounded-pill">
+                <div>{{user.getTotalMales}}</div>
+              </div>
+            </div>
+            <!-- button   -->
+            <div>
+              <RouterLink class="btn btn-primary w-100 text-decoration-none" to="">{{
+                'OPEN IN DASHBOARD'
+              }}</RouterLink>
+            </div>
+          </div>
+        </div>
+        <!--        End Male-->
       </div>
     </div>
   </div>

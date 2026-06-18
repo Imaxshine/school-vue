@@ -15,6 +15,18 @@ export const useUsersStore = defineStore('data', ()=>{
   const usersLength = computed(()=>{
     return users.value.length;
   })
+  const getTotalMales = computed(()=>{
+    const total = users.value.filter((me) => me.gender === 'ME')
+    if (total){
+      return total.length;
+    }
+  });
+  const getTotalFemales = computed(()=>{
+    const total = users.value.filter((fe)=>fe.gender === "KE");
+    if (total){
+      return total.length;
+    }
+  })
   //Actions
   async function getUsers(){
     try {
@@ -29,7 +41,7 @@ export const useUsersStore = defineStore('data', ()=>{
       });
       if (!response.data.error){
         users.value = response.data;
-        console.log(users.value);
+        // console.log(users.value);
       }
       if (response.data.error){
         token.removeToken();
@@ -43,6 +55,7 @@ export const useUsersStore = defineStore('data', ()=>{
       loading.value = false;
     }
   }
+
   function closeAlert(){
     isNotification.value = !isNotification.value;
   }
@@ -55,8 +68,10 @@ export const useUsersStore = defineStore('data', ()=>{
     isNotification,
     //Getter
     usersLength,
+    getTotalMales,
+    getTotalFemales,
     //Action
     getUsers,
-    closeAlert
+    closeAlert,
   }
 })

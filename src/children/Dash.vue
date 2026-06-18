@@ -10,7 +10,7 @@ const users = useUsersStore();
 onMounted(()=>{
   users.getUsers();
 })
-
+// console.log(`Females: ${users.getTotalFemales}`)
 function saveSchoolName(){
   if (userInput.value === ""){
     return
@@ -55,10 +55,10 @@ const updateSchoolName = ()=>{
   </div>
 <!--  Slots-->
   <div v-if="users.isNotification">
-    <Alerts color="red">
+    <Alerts>
       <template #alert>
         <div>
-          <p class="fs-5 fw-bolder">{{users.errorMsg}}</p>
+          <p class="fs-5 fw-bolder text-danger">{{users.errorMsg}}</p>
           <div class="my-3 text-end">
             <button class="btn btn-info" @click="users.getUsers()">Try again</button>
           </div>
@@ -101,6 +101,9 @@ const updateSchoolName = ()=>{
                   <th>Mathematics</th>
                   <th>Geography</th>
                   <th>Language</th>
+                  <th>View</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
                 </tr>
               </thead>
 
@@ -112,6 +115,9 @@ const updateSchoolName = ()=>{
                   <td>{{user.subjects[0].marks}}</td>
                   <td>{{user.subjects[1].marks}}</td>
                   <td>{{user.subjects[2].marks}}</td>
+                  <td><button class="btn btn-info">View</button></td>
+                  <td> <button class="btn btn-primary">Update</button> </td>
+                    <td> <button class="btn btn-danger">Delete</button></td>
                 </tr>
               </tbody>
             </table>
@@ -129,7 +135,7 @@ const updateSchoolName = ()=>{
                   <div
                     class="total-shape rounded-pill bg-success d-flex justify-content-center align-items-center"
                   >
-                    {{ 50 }}
+                    {{users.users.length}}
                   </div>
                 </div>
               </div>
@@ -143,7 +149,7 @@ const updateSchoolName = ()=>{
                     class="male-shape d-flex justify-content-center align-items-center rounded-pill"
                     style="background: rgb(234, 227, 136)"
                   >
-                    {{ 19 }}
+                    {{ users.getTotalMales }}
                   </div>
                 </div>
               </div>
@@ -157,7 +163,7 @@ const updateSchoolName = ()=>{
                     class="female-shape d-flex justify-content-center align-items-center rounded-pill"
                     style="background: rgb(138, 138, 232)"
                   >
-                    {{ 31 }}
+                    {{users.getTotalFemales}}
                   </div>
                 </div>
               </div>
