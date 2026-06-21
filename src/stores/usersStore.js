@@ -5,6 +5,7 @@ import {api} from '@/services/api';
 import {useTokenStore} from '@/stores/token'
 
 
+
 export const useUsersStore = defineStore('data', ()=>{
   //State
   const users = ref([])
@@ -74,4 +75,42 @@ export const useUsersStore = defineStore('data', ()=>{
     getUsers,
     closeAlert,
   }
+})
+
+export const useDefaultHome = defineStore('defaultHome', ()=>{
+  // State
+  const users = ref([]);
+  const isLoading = ref(false);
+  const errorMsg = ref("");
+  const isAlert = ref(false);
+
+  // Actions
+  const getAllUsers = async ()=>{
+    try {
+      isAlert.value = false;
+      isLoading.value = true;
+      const response = await api.get('/public');
+      users.value = response.data;
+    }catch (e) {
+      console.log(e.message);
+      errorMsg.value = "Connection error, try to connect your device with internet and try again";
+      isAlert.value = true;
+    }finally {
+      isLoading.value = false;
+    }
+  }
+  function closeAlert(){
+    isAlert.value = !isAlert.value;
+  }
+  return {
+    //States
+    users,
+    isLoading,
+    errorMsg,
+    isAlert,
+    //Actions
+    getAllUsers,
+    closeAlert
+  }
+
 })

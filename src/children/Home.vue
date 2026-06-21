@@ -4,9 +4,9 @@ import { timeOut } from '@/functions/timer';
 import Loader from '@/view/Loader.vue';
 import Alerts from '@/view/Alerts.vue';
 import { useSchoolStore } from '@/stores/schoolStore'
-import {useUsersStore} from '@/stores/usersStore';
-const user = useUsersStore();
+import {useDefaultHome} from '@/stores/usersStore';
 
+const home = useDefaultHome();
 const school = useSchoolStore()
 
 import { ref } from 'vue'
@@ -46,25 +46,26 @@ const getPassword = async () => {
 }
 //OnMounted
 onMounted(()=>{
-  user.getUsers();
+  console.log(home.users)
 })
 </script>
 
 <template>
 <!--  Loader-->
-  <div v-if="user.loading">
+  <div v-if="home.isLoading">
     <Loader />
   </div>
-<!--  End Loader-->
+  End Loader
 
 <!--  Alert-->
-  <div v-if="user.isNotification">
+  <div v-if="home.isAlert">
     <Alerts>
       <template v-slot:alert>
         <div>
-          <p class="fs-5 fw-bolder text-danger">{{user.errorMsg}}</p>
+          <p class="fs-5 fw-bolder text-danger">{{home.errorMsg}}</p>
           <div class="text-end">
-            <button class="btn btn-info" @click="user.getUsers()">Try again</button>
+            <button class="btn btn-danger me-1" @click="home.closeAlert()">Close</button>
+            <button class="btn btn-info ms-1" @click="home.getAllUsers()">Try again</button>
           </div>
         </div>
       </template>
@@ -159,7 +160,7 @@ onMounted(()=>{
             <div class="card-header">TOTAL</div>
             <div class="card-body d-flex justify-content-center">
               <div class="total-shaped rounded-pill">
-                <div>{{user.users.length}}</div>
+                <div>{{0}}</div>
               </div>
             </div>
             <!-- button   -->
@@ -179,7 +180,7 @@ onMounted(()=>{
           <div class="card p-1">
             <div class="card-header">FEMALE</div>
             <div class="card-body d-flex justify-content-center">
-              <div class="female-shape rounded-pill">{{user.getTotalFemales}}</div>
+              <div class="female-shape rounded-pill">{{0}}</div>
             </div>
             <!-- button   -->
             <div>
@@ -197,7 +198,7 @@ onMounted(()=>{
             <div class="card-header">MALE</div>
             <div class="card-body d-flex justify-content-center">
               <div class="male-shape rounded-pill">
-                <div>{{user.getTotalMales}}</div>
+                <div>{{0}}</div>
               </div>
             </div>
             <!-- button   -->

@@ -43,5 +43,6 @@ dialog {
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(3px);
   z-index: 10;
+  border: none;
 }
 </style>
