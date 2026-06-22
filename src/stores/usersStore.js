@@ -83,7 +83,20 @@ export const useDefaultHome = defineStore('defaultHome', ()=>{
   const isLoading = ref(false);
   const errorMsg = ref("");
   const isAlert = ref(false);
-
+  //Getters
+  const getTotalNumber = computed(()=>{
+    return users.value.length;
+  })
+  const getFemales = computed(()=>{
+    const females = ref([]);
+    females.value = users.value.filter(f=>f.gender === "KE");
+      return females.value.length
+  })
+  const getMales = computed(()=>{
+    const males = ref([]);
+    males.value = users.value.filter(m=>m.gender === "ME");
+    return males.value.length;
+  })
   // Actions
   const getAllUsers = async ()=>{
     try {
@@ -102,15 +115,22 @@ export const useDefaultHome = defineStore('defaultHome', ()=>{
   function closeAlert(){
     isAlert.value = !isAlert.value;
   }
+
+
   return {
     //States
     users,
     isLoading,
     errorMsg,
     isAlert,
+    //Getters
+    getTotalNumber,
+    getFemales,
+    getMales,
     //Actions
     getAllUsers,
-    closeAlert
+    closeAlert,
+
   }
 
 })

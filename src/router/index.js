@@ -6,7 +6,8 @@ import Home from '@/children/Home.vue'
 import Dash from '@/children/Dash.vue'
 import About from '@/children/About.vue'
 import Sign_up from '@/children/Sign_up.vue'
-import Login from '@/children/Login.vue'
+import Login from '@/children/Login.vue';
+import ViewUser from '@/children/ViewUser.vue';
 import NotFound from '@/view/NotFound.vue'
 
 const routers = [
@@ -66,6 +67,11 @@ const routers = [
         },
       },
     ],
+  },
+  {
+    path: '/view/:id',
+    name: 'uniq',
+    component: ViewUser
   },
   {
     path: '/:ErrorPage(.*)*',

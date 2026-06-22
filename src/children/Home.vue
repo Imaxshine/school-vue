@@ -46,7 +46,8 @@ const getPassword = async () => {
 }
 //OnMounted
 onMounted(()=>{
-  console.log(home.users)
+  home.getAllUsers();
+  // console.log(home.getMales);
 })
 </script>
 
@@ -55,7 +56,7 @@ onMounted(()=>{
   <div v-if="home.isLoading">
     <Loader />
   </div>
-  End Loader
+<!--  End Loader-->
 
 <!--  Alert-->
   <div v-if="home.isAlert">
@@ -160,7 +161,7 @@ onMounted(()=>{
             <div class="card-header">TOTAL</div>
             <div class="card-body d-flex justify-content-center">
               <div class="total-shaped rounded-pill">
-                <div>{{0}}</div>
+                <div>{{home.getTotalNumber}}</div>
               </div>
             </div>
             <!-- button   -->
@@ -180,7 +181,7 @@ onMounted(()=>{
           <div class="card p-1">
             <div class="card-header">FEMALE</div>
             <div class="card-body d-flex justify-content-center">
-              <div class="female-shape rounded-pill">{{0}}</div>
+              <div class="female-shape rounded-pill">{{home.getFemales}}</div>
             </div>
             <!-- button   -->
             <div>
@@ -198,7 +199,7 @@ onMounted(()=>{
             <div class="card-header">MALE</div>
             <div class="card-body d-flex justify-content-center">
               <div class="male-shape rounded-pill">
-                <div>{{0}}</div>
+                <div>{{home.getMales}}</div>
               </div>
             </div>
             <!-- button   -->

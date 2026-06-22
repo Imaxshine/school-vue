@@ -115,7 +115,7 @@ const updateSchoolName = ()=>{
                   <td>{{user.subjects[0].marks}}</td>
                   <td>{{user.subjects[1].marks}}</td>
                   <td>{{user.subjects[2].marks}}</td>
-                  <td><button class="btn btn-info">View</button></td>
+                  <td><RouterLink :to="{name: 'uniq', params: {id: user.id}}" class="btn btn-info">View</RouterLink></td>
                   <td> <button class="btn btn-primary">Update</button> </td>
                     <td> <button class="btn btn-danger">Delete</button></td>
                 </tr>

@@ -61,7 +61,7 @@ const userLogin = async function () {
       await router.replace({name: 'dash'})
     }
   } catch (errors) {
-    errorMsg.value = 'Failed to fetch information, try again later'
+    errorMsg.value = 'Failed to fetch information or no internet connection!';
     isError.value = true
     isLoad.value = false
     await timeOut(4000)
