@@ -13,22 +13,24 @@ console.log(getCurrentPupil())
 </script>
 
 <template>
-  <div class="container-fluid">
-    <div v-if="usersStore.users.length === 0" class="mt-5 alert alert-danger text-center">
+  <div
+    class="container-fluid d-flex justify-content-center align-items-center"
+    style="height: 100vh"
+  >
+    <div v-if="usersStore.users.length === 0" class="mt-5 alert alert-danger text-center shadow-lg">
       No any pupil information were found! <RouterLink :to="{ name: 'dash' }">Go back</RouterLink>
     </div>
 
     <div
       v-if="usersStore.users.length > 0"
-      class="row d-flex justify-content-center align-items-center overflow-y-auto p-3"
-      style="height: 100vh"
+      class="row d-flex justify-content-center align-items-center overflow-y-auto p-3 shadow-lg"
     >
+      <!-- Back button -->
+      <div class="m-1 text-start">
+        <RouterLink class="btn btn-dark" :to="{ name: 'dash' }">Go back</RouterLink>
+      </div>
       <!-- Profile-->
       <div class="col-lg-3 col-sm-12">
-        <!-- Back button -->
-        <div class="m-1 text-end">
-          <RouterLink class="btn btn-dark" :to="{ name: 'dash' }">Go back</RouterLink>
-        </div>
         <div class="card">
           <div class="card-header text-center fw-bolder">
             {{ getCurrentPupil().firstName }} profile
@@ -108,6 +110,9 @@ console.log(getCurrentPupil())
 </template>
 
 <style scoped>
+.container-fluid {
+  background: linear-gradient(65.6deg, #506350, #4e4e6c, #3c3b3b);
+}
 .row {
   background: linear-gradient(65.6deg, #4e4e6c, #506350, #3c3b3b);
   color: #d3cbcb;

@@ -1,12 +1,12 @@
 <script setup>
-import {onMounted} from 'vue';
-import { timeOut } from '@/functions/timer';
-import Loader from '@/view/Loader.vue';
-import Alerts from '@/view/Alerts.vue';
+import { onMounted } from 'vue'
+import { timeOut } from '@/functions/timer'
+import Loader from '@/view/Loader.vue'
+import Alerts from '@/view/Alerts.vue'
 import { useSchoolStore } from '@/stores/schoolStore'
-import {useDefaultHome} from '@/stores/usersStore';
+import { useDefaultHome } from '@/stores/usersStore'
 
-const home = useDefaultHome();
+const home = useDefaultHome()
 const school = useSchoolStore()
 
 import { ref } from 'vue'
@@ -45,25 +45,25 @@ const getPassword = async () => {
   }
 }
 //OnMounted
-onMounted(()=>{
-  home.getAllUsers();
+onMounted(() => {
+  home.getAllUsers()
   // console.log(home.getMales);
 })
 </script>
 
 <template>
-<!--  Loader-->
+  <!--  Loader-->
   <div v-if="home.isLoading">
     <Loader />
   </div>
-<!--  End Loader-->
+  <!--  End Loader-->
 
-<!--  Alert-->
+  <!--  Alert-->
   <div v-if="home.isAlert">
     <Alerts>
       <template v-slot:alert>
         <div>
-          <p class="fs-5 fw-bolder text-danger">{{home.errorMsg}}</p>
+          <p class="fs-5 fw-bolder text-danger">{{ home.errorMsg }}</p>
           <div class="text-end">
             <button class="btn btn-danger me-1" @click="home.closeAlert()">Close</button>
             <button class="btn btn-info ms-1" @click="home.getAllUsers()">Try again</button>
@@ -72,7 +72,7 @@ onMounted(()=>{
       </template>
     </Alerts>
   </div>
-<!--  End Alert-->
+  <!--  End Alert-->
 
   <div class="container-fluid" style="font-family: Tahoma, Arial, SansSerif">
     <div v-if="school.isSchoolNameAvailable" class="bg-info p-2 top-title mt-1 rounded-1">
@@ -161,7 +161,7 @@ onMounted(()=>{
             <div class="card-header">TOTAL</div>
             <div class="card-body d-flex justify-content-center">
               <div class="total-shaped rounded-pill">
-                <div>{{home.getTotalNumber}}</div>
+                <div>{{ home.getTotalNumber }}</div>
               </div>
             </div>
             <!-- button   -->
@@ -181,7 +181,7 @@ onMounted(()=>{
           <div class="card p-1">
             <div class="card-header">FEMALE</div>
             <div class="card-body d-flex justify-content-center">
-              <div class="female-shape rounded-pill">{{home.getFemales}}</div>
+              <div class="female-shape rounded-pill">{{ home.getFemales }}</div>
             </div>
             <!-- button   -->
             <div>
@@ -199,7 +199,7 @@ onMounted(()=>{
             <div class="card-header">MALE</div>
             <div class="card-body d-flex justify-content-center">
               <div class="male-shape rounded-pill">
-                <div>{{home.getMales}}</div>
+                <div>{{ home.getMales }}</div>
               </div>
             </div>
             <!-- button   -->

@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import {useTokenStore} from '@/stores/token'
+import { useTokenStore } from '@/stores/token'
 
 import LandingPage from '@/view/LandingPage.vue'
 import Home from '@/children/Home.vue'
 import Dash from '@/children/Dash.vue'
 import About from '@/children/About.vue'
 import Sign_up from '@/children/Sign_up.vue'
-import Login from '@/children/Login.vue';
-import ViewUser from '@/children/ViewUser.vue';
+import Login from '@/children/Login.vue'
+import ViewUser from '@/children/ViewUser.vue'
 import NotFound from '@/view/NotFound.vue'
 
 const routers = [
@@ -71,23 +71,23 @@ const routers = [
   {
     path: '/view/:id',
     name: 'uniq',
-    component: ViewUser
+    component: ViewUser,
   },
   {
     path: '/:ErrorPage(.*)*',
     name: 'notFound',
     component: NotFound,
     meta: {
-      title: "404 Not Found"
-    }
-  }
+      title: '404 Not Found',
+    },
+  },
 ]
 const route = createRouter({
   history: createWebHistory('/'),
   routes: routers,
 })
 route.beforeEach((to, from) => {
-  const tokenStore = useTokenStore();
+  const tokenStore = useTokenStore()
   //set default title if not set
   document.title = to.meta.title || 'School App'
   //Jaza description
@@ -97,9 +97,9 @@ route.beforeEach((to, from) => {
     metaDescription.setAttribute('content', to.meta.description)
   }
 
-  if (to.meta.isAuth && !tokenStore.isLogin){
-    return {name: 'login'};
+  if (to.meta.isAuth && !tokenStore.isLogin) {
+    return { name: 'login' }
   }
-  return true;
+  return true
 })
 export default route

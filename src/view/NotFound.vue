@@ -1,9 +1,9 @@
 <script setup>
 import { useRouter } from 'vue-router'
-const router = useRouter();
+const router = useRouter()
 
-const redirectUrl = ()=>{
-  router.replace({name: 'home'});
+const redirectUrl = () => {
+  router.replace({ name: 'home' })
 }
 </script>
 
@@ -13,7 +13,9 @@ const redirectUrl = ()=>{
       <p class="text-end fs-3"><strong class="text-capitalize">404 page not found</strong></p>
       <p class="text-center">The requested URL was not found on this server.</p>
       <p class="text-center shadow rounded-1 p-2">
-        <button class="visit_btn bg-light p-1 text-primary fs-5" @click="redirectUrl">visit home page</button>
+        <button class="visit_btn bg-light p-1 text-primary fs-5" @click="redirectUrl">
+          visit home page
+        </button>
       </p>
       <hr />
     </div>

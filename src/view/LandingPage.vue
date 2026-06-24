@@ -11,8 +11,8 @@ const logout = async () => {
   if (confirm(message.value)) {
     token.removeToken()
     await router.replace({ name: 'login' })
-  }else{
-    return null;
+  } else {
+    return null
   }
 }
 </script>

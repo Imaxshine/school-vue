@@ -1,15 +1,14 @@
 <script setup>
 import { ref } from 'vue'
 import { loginAPI as api } from '@/services/loginAPI'
-import { timeOut } from '@/functions/timer';
+import { timeOut } from '@/functions/timer'
 import Loader from '@/view/Loader.vue'
-import {useRouter} from "vue-router";
-import { useTokenStore } from '@/stores/token';
-import {useFormStore} from '@/stores/formStore';
-const formStore = useFormStore();
+import { useRouter } from 'vue-router'
+import { useTokenStore } from '@/stores/token'
+import { useFormStore } from '@/stores/formStore'
+const formStore = useFormStore()
 const token = useTokenStore()
-const router = useRouter();
-
+const router = useRouter()
 
 const isViewed = ref(false)
 const isError = ref(false)
@@ -56,12 +55,12 @@ const userLogin = async function () {
     // Todo When token available
     if (response.data.token) {
       //Reset form inputs
-      formStore.clearLoginForm();
-      token.setToken(response.data.token);
-      await router.replace({name: 'dash'})
+      formStore.clearLoginForm()
+      token.setToken(response.data.token)
+      await router.replace({ name: 'dash' })
     }
   } catch (errors) {
-    errorMsg.value = 'Failed to fetch information or no internet connection!';
+    errorMsg.value = 'Failed to fetch information or no internet connection!'
     isError.value = true
     isLoad.value = false
     await timeOut(4000)
@@ -82,14 +81,12 @@ const changeInputType = () => {
   <div v-if="isLoad">
     <Loader />
   </div>
-<!--  End Loader-->
-<!--  Alert-->
+  <!--  End Loader-->
+  <!--  Alert-->
   <div>
-    <Alerts>
-
-    </Alerts>
+    <Alerts> </Alerts>
   </div>
-<!--  Alert-->
+  <!--  Alert-->
   <div class="container my-2">
     <div class="row card_holder">
       <div class="col-lg-7 col-md-6 col-sm-12">

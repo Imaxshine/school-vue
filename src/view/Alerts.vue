@@ -15,9 +15,8 @@ defineProps({
   b_radius: {
     type: String,
     default: '7px',
-  }
+  },
 })
-
 </script>
 
 <template>

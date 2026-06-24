@@ -48,9 +48,11 @@ const updateSchoolName = () => {
 </script>
 
 <template>
+  <!-- Loading... -->
   <div v-if="users.loading">
     <Loader />
   </div>
+
   <!--  Slots-->
   <div v-if="users.isNotification">
     <Alerts>
@@ -66,61 +68,88 @@ const updateSchoolName = () => {
   </div>
   <!--  End slots-->
 
-  <div class="container-fluid" style="font-family: Tahoma, Arial, SansSerif">
-    <div class="bg-info p-2 text-center rounded-1">
-      <h3>
-        Dashboard <span v-if="school.isSchoolNameAvailable">for {{ school.schoolName }}</span>
-      </h3>
+  <div class="container-fluid overflow-y-scroll p-1" style="height: 100vh">
+    <!-- School Title -->
+    <div class="row">
+      <div class="col-12">
+        <div class="bg-info rounded-1">
+          <h4 class="text-center p-2">
+            Dashboard <span v-if="school.isSchoolNameAvailable">for {{ school.schoolName }}</span>
+          </h4>
+        </div>
+      </div>
     </div>
 
-    <div
-      class="card p-2 my-2"
-      style="background: linear-gradient(65.6deg, #4e4e6c, #506350, #3c3b3b); color: #d3cbcb;"
-    >
-      <div class="card-body">
-        <div class="row">
-          <!-- Enroll form of a new school -->
-          <div class="my-2 text-end">
-            <input
-              type="text"
-              v-model.trim="userInput"
-              @keyup.enter="saveSchoolName"
-              class="enroll_input"
-              placeholder="Kilimanjaro pri/secondary"
-            />
-            <button
-              class="m-1 buttons"
-              @click="saveSchoolName"
-              :class="school.isSchoolNameAvailable ? 'myBtn' : null"
-              :disabled="school.isSchoolNameAvailable"
-              :title="school.isSchoolNameAvailable ? 'Restricted' : 'Enroll a new school name'"
-            >
-              <i class="bi bi-plus-lg"></i> Enroll new
-            </button>
-            <button
-              class="m-1 buttons"
-              :disabled="!school.isSchoolNameAvailable"
-              :class="!school.isSchoolNameAvailable ? 'myBtn' : null"
-              v-on:click="unEnroll"
-              :title="
-                !school.isSchoolNameAvailable ? 'Restricted' : `Unenroll ${school.schoolName}`
-              "
-            >
-              <i class="bi bi-dash-lg"></i> Unenroll
-            </button>
-            <button
-              class="m-1 buttons"
-              :disabled="!school.isSchoolNameAvailable"
-              :class="!school.isSchoolNameAvailable ? 'myBtn' : null"
-              :title="!school.isSchoolNameAvailable ? 'Restricted' : 'Update a school name'"
-              @click="updateSchoolName"
-            >
-              <i class="bi bi-arrow-down-up"></i> Update name
-            </button>
+    <!--  Settings & Enrollment  -->
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseTwo"
+            aria-expanded="false"
+            aria-controls="collapseTwo"
+          >
+            Enrolment
+          </button>
+        </h2>
+        <div
+          id="collapseTwo"
+          class="accordion-collapse collapse"
+          data-bs-parent="#accordionExample"
+        >
+          <div class="accordion-body">
+            <!-- Enroll form of a new school -->
+            <div class="my-2 text-end">
+              <input
+                type="text"
+                v-model.trim="userInput"
+                @keyup.enter="saveSchoolName"
+                class="enroll_input"
+                placeholder="Kilimanjaro pri/secondary"
+              />
+              <button
+                class="m-1 buttons"
+                @click="saveSchoolName"
+                :class="school.isSchoolNameAvailable ? 'myBtn' : null"
+                :disabled="school.isSchoolNameAvailable"
+                :title="school.isSchoolNameAvailable ? 'Restricted' : 'Enroll a new school name'"
+              >
+                <i class="bi bi-plus-lg"></i> Enroll new
+              </button>
+              <button
+                class="m-1 buttons"
+                :disabled="!school.isSchoolNameAvailable"
+                :class="!school.isSchoolNameAvailable ? 'myBtn' : null"
+                v-on:click="unEnroll"
+                :title="
+                  !school.isSchoolNameAvailable ? 'Restricted' : `Unenroll ${school.schoolName}`
+                "
+              >
+                <i class="bi bi-dash-lg"></i> Unenroll
+              </button>
+              <button
+                class="m-1 buttons"
+                :disabled="!school.isSchoolNameAvailable"
+                :class="!school.isSchoolNameAvailable ? 'myBtn' : null"
+                :title="!school.isSchoolNameAvailable ? 'Restricted' : 'Update a school name'"
+                @click="updateSchoolName"
+              >
+                <i class="bi bi-arrow-down-up"></i> Update name
+              </button>
+            </div>
           </div>
-          <hr />
-          <!-- Table  -->
-          <div class="table_holder mb-2 col-lg-12 col-sm-12">
+        </div>
+      </div>
+    </div>
+
+    <!--  Pupil's table  -->
+    <div class="row mt-1">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body overflow-y-scroll" style="height: 55vh">
             <table class="table table-dark table-hover">
               <thead>
                 <tr>
@@ -155,112 +184,73 @@ const updateSchoolName = () => {
               </tbody>
             </table>
           </div>
-          <!-- End Table  -->
         </div>
       </div>
     </div>
 
-    <div class="main_holder text-center">
-      <h3 class="p-1">STATISTIC'S</h3>
-    </div>
-
-    <!-- Statistic -->
-    <div class="row p-2">
-      <div class="col-lg-12 col-sm-12">
-        <div class="stat-container">
-          <!--                   Total-->
-
-          <div class="card">
-            <div class="card-header text-center">TOTAL</div>
-            <div class="card-body d-flex justify-content-center">
-              <div
-                class="total-shape rounded-pill bg-success d-flex justify-content-center align-items-center"
-              >
-                {{users.users.length}}
-              </div>
-            </div>
-          </div>
-
-          <!--                   End total-->
-          <!--      Male        -->
-          <div class="card">
-            <div class="card-header text-center">MALE</div>
-            <div class="card-body d-flex justify-content-center">
-              <div
-                class="male-shape d-flex justify-content-center align-items-center rounded-pill"
-                style="background: rgb(234, 227, 136)"
-              >
-                {{ users.getTotalMales }}
-              </div>
-            </div>
-          </div>
-          <!--      End Male      -->
-
-          <!--      Female        -->
-          <div class="card">
-            <div class="card-header text-center">FEMALE</div>
-            <div class="card-body d-flex justify-content-center">
-              <div
-                class="female-shape d-flex justify-content-center align-items-center rounded-pill"
-                style="background: rgb(138, 138, 232)"
-              >
-                {{users.getTotalFemales}}
-              </div>
-            </div>
-          </div>
-          <!-- End Female  -->
+    <!-- Statistic Title -->
+    <div class="row my-2">
+      <div class="col-12">
+        <div class="stat_title text-center">
+          <h3 class="p-1">STATISTIC'S</h3>
         </div>
       </div>
     </div>
-    <!-- End Statistic -->
+
+    <!-- Statistics cards -->
+    <div class="row">
+      <div class="card_holder">
+        <!--   Total-->
+        <div class="card">
+          <div class="card-header text-center">TOTAL</div>
+          <div class="card-body d-flex justify-content-center">
+            <div
+              class="total-shape rounded-pill bg-success d-flex justify-content-center align-items-center"
+            >
+              {{ users.users.length }}
+            </div>
+          </div>
+        </div>
+        <!--  End total-->
+
+        <!--      Male        -->
+        <div class="card">
+          <div class="card-header text-center">MALE</div>
+          <div class="card-body d-flex justify-content-center">
+            <div
+              class="male-shape d-flex justify-content-center align-items-center rounded-pill"
+              style="background: rgb(234, 227, 136)"
+            >
+              {{ users.getTotalMales }}
+            </div>
+          </div>
+        </div>
+        <!--      End Male      -->
+
+        <!--      Female        -->
+        <div class="card">
+          <div class="card-header text-center">FEMALE</div>
+          <div class="card-body d-flex justify-content-center">
+            <div
+              class="female-shape d-flex justify-content-center align-items-center rounded-pill"
+              style="background: rgb(138, 138, 232)"
+            >
+              {{ users.getTotalFemales }}
+            </div>
+          </div>
+        </div>
+        <!-- End Female  -->
+      </div>
+    </div>
   </div>
-
 </template>
 
 <style scoped>
-.stat-container {
+.stat_title {
+  background: linear-gradient(75deg, #a6a0a5, #141310, #c5ede6);
+  color: #cce1e7;
+}
+.card_holder {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 10px;
-}
-.total-shape,
-.male-shape,
-.female-shape {
-  height: 45px;
-  width: 45px;
-  font-size: 25px;
-  font-weight: bold;
-  padding: 15px;
-}
-.total-shape:hover,
-.male-shape:hover,
-.female-shape:hover {
-  transform: translateY(-12px);
-  box-shadow: 4px 6px 5px 5px rgba(0, 0, 0, 0.3);
-}
-.main_holder {
-  background: linear-gradient(65.6deg, #4e4e6c, #506350, #3c3b3b);
-  color: #d3cbcb
-}
-.table_holder {
-  overflow-y: auto;
-}
-.myBtn {
-  cursor: not-allowed;
-  background-color: #a8a6a6;
-}
-.enroll_input {
-  padding: 7px;
-  border: none;
-  outline: none;
-  border-radius: 8px;
-  font-size: 20px;
-}
-.buttons {
-  /*background-color: #1f60b4;*/
-  color: rgba(7, 7, 7, 0.93);
-  padding: 5px 8px;
-  border: none;
-  border-radius: 9px;
 }
 </style>
