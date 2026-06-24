@@ -7,103 +7,117 @@ const usersStore = useUsersStore()
 const route = useRoute()
 
 const getCurrentPupil = () => {
-  const pupilData = ref([])
-  pupilData.value = usersStore.users.find((p) => p.id === Number(route.params.id))
-  return pupilData.value
+  return usersStore.users.find((p) => p.id === Number(route.params.id))
 }
+console.log(getCurrentPupil())
 </script>
 
 <template>
-  <div
-    class="view_container container-fluid d-flex flex-column justify-content-center p-4 overflow-scroll"
-    style="height: 100vh"
-  >
-    <div v-if="usersStore.users.length === 0" class="alert alert-danger text-center">
-      No any pupil information were found!
+  <div class="container-fluid">
+    <div v-if="usersStore.users.length === 0" class="mt-5 alert alert-danger text-center">
+      No any pupil information were found! <RouterLink :to="{ name: 'dash' }">Go back</RouterLink>
     </div>
-    <div v-if="usersStore.users.length > 0" class="view_parts">
-      <!--Profile -->
-      <div class="profile shadow-lg">
-        <h2>Profile</h2>
-        <!-- Male-->
-        <p v-if="getCurrentPupil().gender === 'ME'">
-          <img src="/male_icon.png" alt="profile_image" />
-        </p>
-        <!-- female -->
-        <p v-else>
-          <img src="/female_icon.png" alt="profile_image" />
-        </p>
-      </div>
-      <!--End Profile -->
-      <!--Main Body -->
-      <div class="main overflow-scroll p-3">
-        <h4>{{ getCurrentPupil().firstName }} - {{ getCurrentPupil().lastName }}</h4>
-        <hr />
-        <table class="table table-dark table-hover">
-          <thead>
-            <tr>
-              <th>GENDER</th>
-              <th>MATH'S</th>
-              <th>GEOGRAPHY</th>
-              <th>LANGUAGE</th>
-              <th>TOTAL</th>
-              <th>AVERAGE</th>
-            </tr>
-          </thead>
 
-          <tbody>
-            <tr>
-              <td>{{ getCurrentPupil().gender }}</td>
-              <td>{{ getCurrentPupil().subjects[0].marks }}</td>
-              <td>{{ getCurrentPupil().subjects[1].marks }}</td>
-              <td>{{ getCurrentPupil().subjects[2].marks }}</td>
-              <th>
-                {{
-                  Number(getCurrentPupil().subjects[0].marks) +
-                  Number(getCurrentPupil().subjects[1].marks) +
-                  Number(getCurrentPupil().subjects[2].marks)
-                }}
-              </th>
-              <td>
-                {{
-                  Math.round(
-                    (Number(getCurrentPupil().subjects[0].marks) +
-                      Number(getCurrentPupil().subjects[1].marks) +
-                      Number(getCurrentPupil().subjects[2].marks)) /
-                      getCurrentPupil().subjects.length,
-                  )
-                }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <div
+      v-if="usersStore.users.length > 0"
+      class="row d-flex justify-content-center align-items-center overflow-y-auto p-3"
+      style="height: 100vh"
+    >
+      <!-- Profile-->
+      <div class="col-lg-3 col-sm-12">
+        <!-- Back button -->
+        <div class="m-1 text-end">
+          <RouterLink class="btn btn-dark" :to="{ name: 'dash' }">Go back</RouterLink>
+        </div>
+        <div class="card">
+          <div class="card-header text-center fw-bolder">
+            {{ getCurrentPupil().firstName }} profile
+          </div>
+          <div class="card-body text-center">
+            <!-- Male-->
+            <p v-if="getCurrentPupil().gender === 'ME'">
+              <img src="/male_icon.png" alt="profile_image" />
+            </p>
+            <!-- female -->
+            <p v-else>
+              <img src="/female_icon.png" alt="profile_image" />
+            </p>
+          </div>
+        </div>
       </div>
-      <!--End Main Body -->
+      <!-- End profile  -->
+
+      <!-- Details-->
+      <div class="col-lg-9 col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-column">
+              <h4 class="text-center text-success">
+                {{ getCurrentPupil().firstName }} {{ getCurrentPupil().lastName }}
+              </h4>
+              <hr />
+              <!--Table -->
+              <div class="overflow-x-auto">
+                <table class="table table-dark table-hover">
+                  <thead>
+                    <tr>
+                      <th>GENDER</th>
+                      <th>MATH'S</th>
+                      <th>GEOGRAPHY</th>
+                      <th>LANGUAGE</th>
+                      <th>TOTAL</th>
+                      <th>AVERAGE</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td>{{ getCurrentPupil().gender }}</td>
+                      <td>{{ getCurrentPupil().subjects[0].marks }}</td>
+                      <td>{{ getCurrentPupil().subjects[1].marks }}</td>
+                      <td>{{ getCurrentPupil().subjects[2].marks }}</td>
+                      <th>
+                        {{
+                          Number(getCurrentPupil().subjects[0].marks) +
+                          Number(getCurrentPupil().subjects[1].marks) +
+                          Number(getCurrentPupil().subjects[2].marks)
+                        }}
+                      </th>
+                      <td>
+                        {{
+                          Math.round(
+                            (Number(getCurrentPupil().subjects[0].marks) +
+                              Number(getCurrentPupil().subjects[1].marks) +
+                              Number(getCurrentPupil().subjects[2].marks)) /
+                              getCurrentPupil().subjects.length,
+                          )
+                        }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- End Table -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Details-->
     </div>
   </div>
 </template>
 
 <style scoped>
-.view_container {
-  font-family: DM Sans, Avenir, Helvetica, Arial, sans-serif;
-  background: rgba(7, 7, 7, 0.93);
-}
-.view_parts {
-  display: grid;
-  grid-template-columns: 150px 1fr;
-  gap: 4px;
-  padding: 16px 22px;
-  border-radius: 10px;
-  text-align: center;
-}
-.profile,
-.main {
-  background: linear-gradient(90deg, #fda, #dde, #3c8);
+.row {
+  background: linear-gradient(65.6deg, #4e4e6c, #506350, #3c3b3b);
+  color: #d3cbcb;
 }
 img {
-  width: 100px;
-  border: 2px solid blue;
+  height: 150px;
+  width: 150px;
   border-radius: 50%;
-  padding: 5px 10px;
+  border-bottom: 3px solid orangered;
+  border-top: 3px solid green;
+  padding: 2px;
 }
 </style>
