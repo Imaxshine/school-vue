@@ -5,6 +5,7 @@ import Loader from '@/view/Loader.vue'
 import Alerts from '@/view/Alerts.vue'
 import { useSchoolStore } from '@/stores/schoolStore'
 import { useUsersStore } from '@/stores/usersStore'
+import {updateUser} from '@/functions/timer'
 const school = useSchoolStore()
 const users = useUsersStore()
 onMounted(() => {
@@ -45,6 +46,8 @@ const updateSchoolName = () => {
     console.log('The same statement!')
   }
 }
+// Update pupil Info
+
 </script>
 
 <template>
@@ -178,7 +181,7 @@ const updateSchoolName = () => {
                       >View</RouterLink
                     >
                   </td>
-                  <td><button class="btn btn-primary">Update</button></td>
+                  <td><button class="btn btn-primary" @click="updateUser(user.id)">Update</button></td>
                   <td><button class="btn btn-danger">Delete</button></td>
                 </tr>
               </tbody>
@@ -198,49 +201,47 @@ const updateSchoolName = () => {
     </div>
 
     <!-- Statistics cards -->
-    <div class="row">
-      <div class="card_holder">
-        <!--   Total-->
-        <div class="card">
-          <div class="card-header text-center">TOTAL</div>
-          <div class="card-body d-flex justify-content-center">
-            <div
-              class="total-shape rounded-pill bg-success d-flex justify-content-center align-items-center"
-            >
-              {{ users.users.length }}
-            </div>
+    <div class="card_holder">
+      <!--   Total-->
+      <div class="card">
+        <div class="card-header text-center">TOTAL</div>
+        <div class="card-body d-flex justify-content-center">
+          <div
+            class="total-shape rounded-pill bg-success d-flex justify-content-center align-items-center">
+            {{ users.users.length }}
           </div>
         </div>
-        <!--  End total-->
-
-        <!--      Male        -->
-        <div class="card">
-          <div class="card-header text-center">MALE</div>
-          <div class="card-body d-flex justify-content-center">
-            <div
-              class="male-shape d-flex justify-content-center align-items-center rounded-pill"
-              style="background: rgb(234, 227, 136)"
-            >
-              {{ users.getTotalMales }}
-            </div>
-          </div>
-        </div>
-        <!--      End Male      -->
-
-        <!--      Female        -->
-        <div class="card">
-          <div class="card-header text-center">FEMALE</div>
-          <div class="card-body d-flex justify-content-center">
-            <div
-              class="female-shape d-flex justify-content-center align-items-center rounded-pill"
-              style="background: rgb(138, 138, 232)"
-            >
-              {{ users.getTotalFemales }}
-            </div>
-          </div>
-        </div>
-        <!-- End Female  -->
       </div>
+      <!--  End total-->
+
+      <!--      Male        -->
+      <div class="card">
+        <div class="card-header text-center">MALE</div>
+        <div class="card-body d-flex justify-content-center">
+          <div
+            class="male-shape d-flex justify-content-center align-items-center rounded-pill"
+            style="background: rgb(234, 227, 136)"
+          >
+            {{ users.getTotalMales }}
+          </div>
+        </div>
+      </div>
+      <!--      End Male      -->
+
+      <!--      Female        -->
+      <div class="card">
+        <div class="card-header text-center">FEMALE</div>
+        <div class="card-body d-flex justify-content-center">
+          <div
+            class="female-shape d-flex justify-content-center align-items-center rounded-pill"
+            style="background: rgb(138, 138, 232)"
+          >
+            {{ users.getTotalFemales }}
+          </div>
+        </div>
+      </div>
+      <!-- End Female  -->
+
     </div>
   </div>
 </template>
@@ -248,9 +249,34 @@ const updateSchoolName = () => {
 <style scoped>
 .stat_title {
   background: linear-gradient(75deg, #a6a0a5, #141310, #c5ede6);
-  color: #cce1e7;
+  color: #fff;
 }
 .card_holder {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 25px;
+  padding: 15px;
+}
+.total-shape, .female-shape, .male-shape{
+  padding: 16px;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+}
+input{
+  padding: 7px;
+  border: none;
+  outline: none;
+  border-left: 2px solid #000;
+  border-right: 2px solid #000;
+  border-radius: 10px;
+  font-size: 14px;
+}
+.buttons{
+  border: none;
+  border-bottom: 3px solid #000;
+}
+.myBtn{
+  cursor: no-drop;
 }
 </style>

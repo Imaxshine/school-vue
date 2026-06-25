@@ -9,7 +9,7 @@ const route = useRoute()
 const getCurrentPupil = () => {
   return usersStore.users.find((p) => p.id === Number(route.params.id))
 }
-console.log(getCurrentPupil())
+// console.log(getCurrentPupil())
 </script>
 
 <template>
