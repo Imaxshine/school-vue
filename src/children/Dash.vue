@@ -5,7 +5,9 @@ import Loader from '@/view/Loader.vue'
 import Alerts from '@/view/Alerts.vue'
 import { useSchoolStore } from '@/stores/schoolStore'
 import { useUsersStore } from '@/stores/usersStore'
-import {updateUser} from '@/functions/timer'
+import {useUpdateStore} from '@/stores/updateStore';
+
+const update = useUpdateStore();
 const school = useSchoolStore()
 const users = useUsersStore()
 onMounted(() => {
@@ -46,11 +48,19 @@ const updateSchoolName = () => {
     console.log('The same statement!')
   }
 }
-// Update pupil Info
 
 </script>
 
 <template>
+      <!-- Update Dialog  -->
+  <dialog class="dialog-1" open>
+    <div>
+      <form>
+        <label for="first">First name</label>
+      </form>
+    </div>
+  </dialog>
+      <!--  End Dialog      -->
   <!-- Loading... -->
   <div v-if="users.loading">
     <Loader />
@@ -181,7 +191,7 @@ const updateSchoolName = () => {
                       >View</RouterLink
                     >
                   </td>
-                  <td><button class="btn btn-primary" @click="updateUser(user.id)">Update</button></td>
+                  <td><button class="btn btn-primary" @click="update.updateUser(user.id)">Update</button></td>
                   <td><button class="btn btn-danger">Delete</button></td>
                 </tr>
               </tbody>
@@ -278,5 +288,13 @@ input{
 }
 .myBtn{
   cursor: no-drop;
+}
+.dialog-1{
+  height: 100vh;
+  width: 100vw;
+  border: none;
+  z-index: 2;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(3px);
 }
 </style>
