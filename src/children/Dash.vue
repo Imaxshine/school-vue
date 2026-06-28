@@ -5,9 +5,9 @@ import Loader from '@/view/Loader.vue'
 import Alerts from '@/view/Alerts.vue'
 import { useSchoolStore } from '@/stores/schoolStore'
 import { useUsersStore } from '@/stores/usersStore'
-import {useUpdateStore} from '@/stores/updateStore';
+import { useUpdateStore } from '@/stores/updateStore'
 
-const update = useUpdateStore();
+const update = useUpdateStore()
 const school = useSchoolStore()
 const users = useUsersStore()
 onMounted(() => {
@@ -48,19 +48,74 @@ const updateSchoolName = () => {
     console.log('The same statement!')
   }
 }
-
 </script>
 
 <template>
-      <!-- Update Dialog  -->
-  <dialog class="dialog-1" open>
-    <div>
-      <form>
-        <label for="first">First name</label>
+  <!-- Update Dialog  -->
+  <dialog
+    v-if="update.isDialogOpen"
+    class="dialog-1 d-flex flex-column justify-content-center align-items-center"
+    open
+  >
+    <div class="form-holder rounded-3 p-3">
+      <div class="my-2 text-end">
+        <button class="btn btn-outline-danger" @click="update.closeDialog()">Close</button>
+      </div>
+
+      <form @submit.prevent="update.update()">
+        <div class="my-2">
+          <label class="form-label" for="first">First name</label>
+          <input
+            class="form-control"
+            v-model.trim="update.firstName"
+            type="text"
+            id="first"
+            placeholder="First name"
+          />
+        </div>
+
+        <div class="my-2">
+          <label class="form-label" for="last">Last name</label>
+          <input
+            class="form-control"
+            v-model.trim="update.lastName"
+            type="text"
+            id="last"
+            placeholder="Last name"
+          />
+        </div>
+
+        <div class="my-2">
+          <h5>Gender</h5>
+          <label class="form-label me-2" for="male">Male</label>
+          <input
+            class="form-check-input"
+            v-model.trim="update.gender"
+            type="radio"
+            id="male"
+            name="gender"
+            value="ME"
+          />
+          <br />
+
+          <label class="form-label me-2" for="female">Female</label>
+          <input
+            class="form-check-input"
+            v-model.trim="update.gender"
+            type="radio"
+            id="female"
+            name="gender"
+            value="KE"
+          />
+        </div>
+
+        <div class="my-2 text-center p-1">
+          <button class="btn btn-primary w-100">Update</button>
+        </div>
       </form>
     </div>
   </dialog>
-      <!--  End Dialog      -->
+  <!--  End Dialog      -->
   <!-- Loading... -->
   <div v-if="users.loading">
     <Loader />
@@ -162,8 +217,9 @@ const updateSchoolName = () => {
     <div class="row mt-1">
       <div class="col-12">
         <div class="card">
-          <div class="card-body overflow-y-scroll" style="height: 55vh">
-            <table class="table table-dark table-hover">
+          <div class="card-body overflow-y-scroll" style="height: 35vh">
+            <p v-if="users.usersLength <= 0" class="alert alert-info">No current data were found.</p>
+            <table v-else class="table table-dark table-hover">
               <thead>
                 <tr>
                   <th>#</th>
@@ -191,8 +247,16 @@ const updateSchoolName = () => {
                       >View</RouterLink
                     >
                   </td>
-                  <td><button class="btn btn-primary" @click="update.updateUser(user.id)">Update</button></td>
-                  <td><button class="btn btn-danger">Delete</button></td>
+                  <td>
+                    <button class="btn btn-primary" @click="update.updateUser(user.id)">
+                      Update
+                    </button>
+                  </td>
+                  <td>
+                    <button class="btn btn-danger" v-on:click="update.deleteUser(user.id)">
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -217,7 +281,8 @@ const updateSchoolName = () => {
         <div class="card-header text-center">TOTAL</div>
         <div class="card-body d-flex justify-content-center">
           <div
-            class="total-shape rounded-pill bg-success d-flex justify-content-center align-items-center">
+            class="total-shape rounded-pill bg-success d-flex justify-content-center align-items-center"
+          >
             {{ users.users.length }}
           </div>
         </div>
@@ -251,7 +316,6 @@ const updateSchoolName = () => {
         </div>
       </div>
       <!-- End Female  -->
-
     </div>
   </div>
 </template>
@@ -267,13 +331,15 @@ const updateSchoolName = () => {
   gap: 25px;
   padding: 15px;
 }
-.total-shape, .female-shape, .male-shape{
+.total-shape,
+.female-shape,
+.male-shape {
   padding: 16px;
   height: 25px;
   width: 25px;
   border-radius: 50%;
 }
-input{
+input {
   padding: 7px;
   border: none;
   outline: none;
@@ -282,19 +348,23 @@ input{
   border-radius: 10px;
   font-size: 14px;
 }
-.buttons{
+.buttons {
   border: none;
   border-bottom: 3px solid #000;
 }
-.myBtn{
+.myBtn {
   cursor: no-drop;
 }
-.dialog-1{
+.dialog-1 {
   height: 100vh;
   width: 100vw;
   border: none;
   z-index: 2;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(3px);
+}
+.form-holder {
+  width: 50vw;
+  background: rgb(255, 255, 255);
 }
 </style>
