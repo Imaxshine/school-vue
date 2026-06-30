@@ -69,9 +69,10 @@ const routers = [
     ],
   },
   {
-    path: '/view/:id',
+    path: '/view/:uniq',
     name: 'uniq',
     component: ViewUser,
+    props: true
   },
   {
     path: '/:ErrorPage(.*)*',
@@ -83,7 +84,7 @@ const routers = [
   },
 ]
 const route = createRouter({
-  history: createWebHistory('/'),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: routers,
 })
 route.beforeEach((to, from) => {

@@ -1,13 +1,17 @@
 <script setup>
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import {onMounted} from 'vue'
 import { useUsersStore } from '@/stores/usersStore'
 const usersStore = useUsersStore()
-
-const route = useRoute()
+//Use props
+const props = defineProps({
+  uniq:{
+    type: String,
+    required: true
+  }
+})
 
 const getCurrentPupil = () => {
-  return usersStore.users.find((p) => p.id === Number(route.params.id))
+  return usersStore.users.find((p) => p.uniq === props.uniq);
 }
 // console.log(getCurrentPupil())
 </script>

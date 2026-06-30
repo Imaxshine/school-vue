@@ -185,7 +185,7 @@ onMounted(() => {
             </div>
             <!-- button   -->
             <div>
-              <RouterLink class="btn btn-primary w-100 text-decoration-none" to="">{{
+              <RouterLink class="btn btn-primary w-100 text-decoration-none" :to="{name: 'dash'}">{{
                 'OPEN IN DASHBOARD'
               }}</RouterLink>
             </div>
@@ -204,7 +204,7 @@ onMounted(() => {
             </div>
             <!-- button   -->
             <div>
-              <RouterLink class="btn btn-primary w-100 text-decoration-none" to="">{{
+              <RouterLink class="btn btn-primary w-100 text-decoration-none" :to="{name: 'dash'}">{{
                 'OPEN IN DASHBOARD'
               }}</RouterLink>
             </div>

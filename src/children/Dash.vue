@@ -239,11 +239,9 @@ const updateSchoolName = () => {
                   <td>{{ index + 1 }}</td>
                   <td>{{ user.firstName }} - {{ user.lastName }}</td>
                   <td>{{ user.gender }}</td>
-                  <td>{{ user.subjects[0].marks }}</td>
-                  <td>{{ user.subjects[1].marks }}</td>
-                  <td>{{ user.subjects[2].marks }}</td>
+                  <td v-for="sub in user.subjects" :key="sub.name">{{sub.marks}}</td>
                   <td>
-                    <RouterLink :to="{ name: 'uniq', params: { id: user.id } }" class="btn btn-info"
+                    <RouterLink :to="{ name: 'uniq', params: { uniq: user.uniq } }" class="btn btn-info"
                       >View</RouterLink
                     >
                   </td>

@@ -28,6 +28,10 @@ export const useUsersStore = defineStore('data', () => {
   })
   //Actions
   async function getUsers() {
+    // Zuiya fetching ya mara kwa mara
+    if (users.value.length > 0){
+      return;
+    }
     try {
       const token = useTokenStore()
       const router = useRouter()
@@ -97,6 +101,7 @@ export const useDefaultHome = defineStore('defaultHome', () => {
   })
   // Actions
   const getAllUsers = async () => {
+    if (getTotalNumber > 0) return;
     try {
       isAlert.value = false
       isLoading.value = true
